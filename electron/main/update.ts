@@ -8,6 +8,12 @@ import type {
 
 const { autoUpdater } = createRequire(import.meta.url)('electron-updater');
 
+autoUpdater.setFeedURL({
+  provider: 'github',
+  owner: 'zhan-agency',
+  repo: 'MonickaDesktop',
+})
+
 export function update(win: Electron.BrowserWindow) {
 
   // When set to false, the update download will be triggered through the API

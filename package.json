@@ -1,9 +1,9 @@
 {
-  "name": "electron-vite-react",
-  "version": "2.2.0",
+  "name": "monickadesktop",
+  "version": "1.0.0",
   "main": "dist-electron/main/index.js",
-  "description": "Electron Vite React boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "Some app",
+  "author": "hafezmehr <hafezmehr@proton.me>",
   "license": "MIT",
   "private": true,
   "debug": {
@@ -20,7 +20,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "electron-updater": "^6.3.9"
+    "electron-updater": "^6.6.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2",
