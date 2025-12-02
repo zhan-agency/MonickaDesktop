@@ -20,7 +20,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "electron-updater": "^6.6.2"
+    "electron-updater": "^6.6.2",
+    "react-router-dom": "^7.10.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2",
