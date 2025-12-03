@@ -1,5 +1,7 @@
 import { IconLinkType, LinkType } from "@/type/monicka";
 import { Link } from "react-router-dom";
+import telegramIcon from '@/assets/telegram-38.png';
+import githubIcon from '@/assets/GitHub.png';
 
 const FooterNavbarItem = ({ to, title }: LinkType) => {
   return (
@@ -20,8 +22,8 @@ const FooterNavbarIcon = ({to, icon}: IconLinkType) => {
 
 const MediumLargeFooter = ({ links }: { links: LinkType[] }) => {
   const icons= {
-    telegram: {to:"http://t.me/monicka_ir", icon:"/telegram-38.png"},
-    github: {to:"http://github.com/hafezmehr", icon:"/GitHub.png"},
+    telegram: {to:"http://t.me/monicka_ir", icon: telegramIcon},
+    github: {to:"http://github.com/hafezmehr", icon: githubIcon },
   }
   
   return (
