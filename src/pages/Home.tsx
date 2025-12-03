@@ -3,6 +3,11 @@ import MediumTile from "@/components/Tiles/MediumTile"
 import ProfileTile from "@/components/Tiles/ProfileTile"
 import { UserType } from "@/type/monicka"
 import { useEffect, useState } from "react"
+import UpdateElectron from '@/components/update'
+import userIcon from '@/assets/user.svg';
+import arrowUpRightIcon from '@/assets/arrow-up-right-from-square.svg'
+import folderOpenIcon from '@/assets/folder-open.svg';
+import plusIcon from '@/assets/plus.svg';
 
 declare global {
   interface Window {
@@ -43,8 +48,8 @@ export default function Home({ user }: { user: UserType }) {
       to: "",
       button_to: "",
       title: "نوبت‌ها و پرداخت‌ها",
-      icon: "/user.svg",
-      button_icon: "/arrow-up-right-from-square.svg",
+      icon: userIcon,
+      button_icon: arrowUpRightIcon,
       iconBackgroundClassName: "bg-green-500",
     },
     type: "choices",
@@ -97,8 +102,8 @@ export default function Home({ user }: { user: UserType }) {
       to: "/test",
       button_to: "/test/new",
       title: "آزمون‌های من",
-      icon: "/folder-open.svg",
-      button_icon: "/plus.svg",
+      icon: folderOpenIcon,
+      button_icon: plusIcon,
       iconBackgroundClassName: "bg-blue-400",
     },
     type: "list",
@@ -110,9 +115,7 @@ export default function Home({ user }: { user: UserType }) {
         <ProfileTile user={user} />
         <MediumTile {...testsTileProps} user={user} />
         <LargeTile {...menuTileProps} />
-        <button onClick={checkNow} style={{ padding: '10px 20px', fontSize: 16 }}>
-        Manual Check for Updates
-      </button>
+        <UpdateElectron />
       </div>
     </main>
   )

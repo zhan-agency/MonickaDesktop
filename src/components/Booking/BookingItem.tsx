@@ -1,15 +1,18 @@
 import { SessionType } from "@/type/monicka";
 import { e2p, timeStringToDecimal } from "@/utils";
 import { ReactNode, useState } from "react";
-import arrow90rightIcon from "../../assets/arrow-90deg-right.svg"
-import dollarIcon from "../../assets/currency-dollar.svg"
-import cameraOnIcon from "../../assets/camera-video.svg"
-import cameraOffIcon from "../../assets/camera-video-off.svg"
-import houseCheckIcon from "../../assets/house-check.svg"
-import houseSlashIcon from "../../assets/house-slash.svg"
-import xLgIcon from "../../assets/x-lg.svg"
-import chain45Icon from "../../assets/link-45deg.svg"
-import checkIcon from "../../assets/link-45deg.svg"
+import arrow90rightIcon from "@/assets/arrow-90deg-right.svg"
+import dollarIcon from "@/assets/currency-dollar.svg"
+import cameraOnIcon from "@/assets/camera-video.svg"
+import cameraOffIcon from "@/assets/camera-video-off.svg"
+import houseCheckIcon from "@/assets/house-check.svg"
+import houseSlashIcon from "@/assets/house-slash.svg"
+import xLgIcon from "@/assets/x-lg.svg"
+import chain45Icon from "@/assets/link-45deg.svg"
+import checkIcon from "@/assets/link-45deg.svg"
+import dollarSignIcon from "@/assets/currency-dollar.svg"
+import userIcon from '@/assets/user.svg';
+import pencilIcon from '@/assets/pencil.svg';
 
 export default function BookingItem({ session, start }: { session: SessionType, start?: number}) {
   const CardFront = ({ children, session }: { children: ReactNode, session: SessionType }) => {
@@ -32,7 +35,7 @@ export default function BookingItem({ session, start }: { session: SessionType, 
     return (
       <>
         <div className="session-name px-2 mb-2 bg-white hover:bg-green-400 rounded " title={`پرونده ${session.client.get_full_name}`}>
-          <img src="/user.svg" className="w-[10px] ml-2" />
+          <img src={userIcon} className="w-[10px] ml-2" />
           {session.client.get_full_name}
         </div>
         <div className="session-therapist" title={`نام کامل مشاور: ${session.therapist.name}`}>
@@ -71,7 +74,7 @@ export default function BookingItem({ session, start }: { session: SessionType, 
   const PaymentIndicator = ({ session }: { session: SessionType }) => {
     return (
       <div className="payment-amount" style={{gridColumn: '2/8', gridRow: '8/9', display: 'flex'}}>
-        <Indicator title="پیش‌پرداخت انجام شده؟" className="session-paid" type="payment-icon" id={session.id} selectedClass="is-paid" icon="/currency-dollar.svg" selectHandler={() => ""} isSelected={session.isPaid} whiteOffIcon={true} />
+        <Indicator title="پیش‌پرداخت انجام شده؟" className="session-paid" type="payment-icon" id={session.id} selectedClass="is-paid" icon={dollarSignIcon} selectHandler={() => ""} isSelected={session.isPaid} whiteOffIcon={true} />
         <span style={{marginRight: '4px' }}>پیش‌پرداخت: {session.payment.toLocaleString('fa-IR')} تومان</span>
       </div>
     )
@@ -94,7 +97,7 @@ export default function BookingItem({ session, start }: { session: SessionType, 
         <CardFront session={session}>
           <TimeIndicator session={session} />
           <SessionInfo session={session} />
-          <Indicator title="یادداشت و آخرین تغییرات" className="session-edit" type="payment-icon" id={session.id} selectedClass="" icon="/pencil.svg" selectHandler={() => setFlip(!flip)} isSelected={session.isPaid} whiteOffIcon={true} />
+          <Indicator title="یادداشت و آخرین تغییرات" className="session-edit" type="payment-icon" id={session.id} selectedClass="" icon={pencilIcon} selectHandler={() => setFlip(!flip)} isSelected={session.isPaid} whiteOffIcon={true} />
           <PaymentIndicator session={session} />
         </CardFront>
         <CardBack>

@@ -1,6 +1,8 @@
 import { UserType } from "@/type/monicka";
 import { Link } from "react-router-dom";
-
+import userIcon from '@/assets/user.svg';
+import powerOffIcon from '@/assets/power-off.svg';
+import monickaLogo from '@/assets/monicka-logo-54.png';
 
 const HeaderNavbarItem = ({ to, title }: { to: string; title: string }) => {
     return (
@@ -27,7 +29,7 @@ const HeaderNavbarItem = ({ to, title }: { to: string; title: string }) => {
       <Link to="/" style={{ textDecoration: "none" }}>
         <div className="w3-bar-item w3-right w3-top-menu-item w3-top-menu-logo">
           <img className="w3-right w3-top-menu-item" style={{ paddingLeft: "5px", paddingRight: "7px" }}
-            src="/monicka-logo-54.png" />
+            src={monickaLogo} />
           <div style={{ color: "white", fontSize: "22px", fontWeight: "900" }}>مونیکا</div>
         </div>
       </Link>
@@ -44,13 +46,13 @@ const HeaderNavbarItem = ({ to, title }: { to: string; title: string }) => {
                 <HeaderNavbarItem to="/test_choose" title="آزمون جدید" />
               ) : (<></>)}
               <HeaderNavbarItem to="/test_list" title="آزمون‌های من" />
-              <HeaderNavbarIcon to="/user_profile" icon="/user.svg" />
-              <HeaderNavbarIcon to="/user_logout" icon="/power-off.svg" />
+              <HeaderNavbarIcon to="/user_profile" icon={userIcon} />
+              <HeaderNavbarIcon to="/user_logout" icon={powerOffIcon} />
             </>
           ) : (
             <>
               <HeaderNavbarItem to="/pricing" title="تعرفه خدمات" />
-              <HeaderNavbarIcon to="/user_login" icon="/user.svg" />
+              <HeaderNavbarIcon to="/user_login" icon={userIcon} />
             </>
 
           ))}
