@@ -1,4 +1,4 @@
-import './App.css'
+import './assets/App.css'
 import { MemoryRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/Home'
 import './assets/App.css'
