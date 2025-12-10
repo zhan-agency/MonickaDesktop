@@ -39,7 +39,7 @@ export function decimalToTimeString(decimal: number) {
     return `${hours}:${minutes != 0 ? "30" : "00" }`
 }
 
-const BASE_URL = 'https://www.monicka.ir'; //'http://127.0.0.1:8000';
+export const BASE_URL = 'https://www.monicka.ir'; //'http://127.0.0.1:8000';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

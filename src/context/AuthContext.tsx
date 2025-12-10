@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-
-const API_URL = 'http://127.0.0.1:8000'
+import { BASE_URL as API_URL } from '@/utils';
 
 type AuthContextType = {
   accessToken: string;
