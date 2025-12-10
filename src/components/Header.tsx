@@ -42,21 +42,21 @@ const HeaderNavbarItem = ({ to, title }: { to: string; title: string }) => {
         <div className="w3-hide-small">
           {(user.is_authenticated ? (
             <>
-              {(user.profile.type == "2" || user.profile.type == "3") ? (
-                <HeaderNavbarItem to="/test_choose" title="آزمون جدید" />
-              ) : (<></>)}
-              <HeaderNavbarItem to="/test_list" title="آزمون‌های من" />
+              <HeaderNavbarItem to="/test_list/" title="آزمون‌ها" />
+              <HeaderNavbarItem to="/booking/" title="نوبت‌ها" />
+              <HeaderNavbarItem to="/test_list" title="پرداخت‌ها" />
+              <HeaderNavbarItem to="/test_list" title="برنامه مشاورین" />
+              <HeaderNavbarItem to="/support" title="پشتیبانی" />
               <HeaderNavbarIcon to="/user_profile" icon={userIcon} />
               <HeaderNavbarIcon to="/user_logout" icon={powerOffIcon} />
             </>
           ) : (
             <>
+              <HeaderNavbarItem to="/post_list" title="مجله" />
               <HeaderNavbarItem to="/pricing" title="تعرفه خدمات" />
               <HeaderNavbarIcon to="/user_login" icon={userIcon} />
             </>
-
           ))}
-          <HeaderNavbarItem to="/post_list" title="مجله" />
         </div>
 
         {(user.is_superuser ? (
