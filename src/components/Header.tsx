@@ -42,10 +42,11 @@ const HeaderNavbarItem = ({ to, title }: { to: string; title: string }) => {
         <div className="w3-hide-small">
           {(user.is_authenticated ? (
             <>
-              <HeaderNavbarItem to="/test_list/" title="آزمون‌ها" />
+              <HeaderNavbarItem to="/calendar/" title="نوبت جدید" />
               <HeaderNavbarItem to="/booking/" title="نوبت‌ها" />
-              <HeaderNavbarItem to="/test_list" title="پرداخت‌ها" />
-              <HeaderNavbarItem to="/test_list" title="برنامه مشاورین" />
+              <HeaderNavbarItem to="/test_list/" title="آزمون‌ها" />
+              <HeaderNavbarItem to="/" title="پرداخت‌ها" />
+              <HeaderNavbarItem to="/" title="برنامه مشاورین" />
               <HeaderNavbarItem to="/support" title="پشتیبانی" />
               <HeaderNavbarIcon to="/user_profile" icon={userIcon} />
               <HeaderNavbarIcon to="/user_logout" icon={powerOffIcon} />
