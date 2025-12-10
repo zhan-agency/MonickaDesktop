@@ -1,6 +1,5 @@
 import BookingItem from "@/components/Booking/BookingItem";
 import { ClinicType, SessionType } from "@/type/monicka";
-import { session } from "electron";
 import { useEffect, useRef, useState } from "react";
 import EmptyBookingItem from "./EmptyBookingItem";
 import { decimalToTimeString, timeStringToDecimal } from "@/utils";
