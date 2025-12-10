@@ -1,9 +1,83 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, safeStorage } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
+import fs from 'fs/promises';
 import { update } from './update'
+
+const STORAGE_FILE = path.join(app.getPath('userData'), 'secure-tokens.enc');
+
+// Load encrypted data from file
+async function loadStorage(): Promise<Record<string, string>> {
+  try {
+    const data = await fs.readFile(STORAGE_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch {
+    return {};
+  }
+}
+
+// Save encrypted data to file
+async function saveStorage(data: Record<string, string>) {
+  await fs.writeFile(STORAGE_FILE, JSON.stringify(data), 'utf8');
+}
+
+ipcMain.handle('store-token', async (_, { key, value }: { key: string; value: string }) => {
+  if (!safeStorage.isEncryptionAvailable()) {
+    throw new Error('Secure storage unavailable');
+  }
+  try {
+    const encrypted = safeStorage.encryptString(value);
+    const storage = await loadStorage();
+    // Store as base64 string for JSON serialization
+    storage[key] = encrypted.toString('base64');
+    await saveStorage(storage);
+    console.log(`[Token Store] Stored token: ${key}`);
+  } catch (error) {
+    console.error(`[Token Store Error] Failed to store token ${key}:`, error);
+    throw error;
+  }
+});
+
+ipcMain.handle('get-token', async (_, key: string) => {
+  try {
+    const storage = await loadStorage();
+    const encryptedBase64 = storage[key];
+    if (!encryptedBase64 || !safeStorage.isEncryptionAvailable()) {
+      console.log(`[Token Get] Token not found or encryption unavailable: ${key}`);
+      return null;
+    }
+    // Convert base64 back to Buffer for decryption
+    const encrypted = Buffer.from(encryptedBase64, 'base64');
+    const decrypted = safeStorage.decryptString(encrypted);
+    console.log(`[Token Get] Retrieved token: ${key}`);
+    return decrypted;
+  } catch (error) {
+    console.error(`[Token Get Error] Failed to get token ${key}:`, error);
+    return null;
+  }
+});
+
+ipcMain.handle('delete-token', async (_, key: string) => {
+  try {
+    const storage = await loadStorage();
+    delete storage[key];
+    await saveStorage(storage);
+    console.log(`[Token Delete] Deleted token: ${key}`);
+  } catch (error) {
+    console.error(`[Token Delete Error] Failed to delete token ${key}:`, error);
+    throw error;
+  }
+});
+
+
+
+
+
+
+
+// default code
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

@@ -1,5 +1,13 @@
 import { ipcRenderer, contextBridge } from 'electron'
 
+
+// --------- Expose Token Storage Related Process -------------
+contextBridge.exposeInMainWorld('electronAPI', {
+  storeToken: (key: string, value: string) => ipcRenderer.invoke('store-token', { key, value }),
+  getToken: (key: string) => ipcRenderer.invoke('get-token', key),
+  deleteToken: (key: string) => ipcRenderer.invoke('delete-token', key),
+});
+
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', {
   on(...args: Parameters<typeof ipcRenderer.on>) {

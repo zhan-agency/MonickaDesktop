@@ -39,17 +39,20 @@ export function decimalToTimeString(decimal: number) {
     return `${hours}:${minutes != 0 ? "30" : "00" }`
 }
 
+const BASE_URL = 'http://127.0.0.1:8000';
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export async function apiCall<T>(
     url: string,
     method: HttpMethod = 'GET'
 ): Promise<T> {
-    const response = await fetch("https://www.monicka.ir/schedule/api/2.0" + url, {
+    const storedAccess = await (window as any).electronAPI.getToken('access');
+    const response = await fetch(BASE_URL+"/api/2.0" + url, {
         method,
         headers: {
             'Content-Type': 'application/json',
-            'monicka-api-key': '433e57db-8cba-418f-9ee9-ade923713284'
+            'Authorization': `Bearer ${storedAccess}`,
         },
     });
 
@@ -129,3 +132,4 @@ export function mapToSession(data: { [key: string]: any }): SessionType {
         room: 0,
     }
 }
+
