@@ -19,8 +19,7 @@ export const DaysBar = ({ selectedDay, setSelectedDay, ultraWide= false }: { sel
         {days.map((day: number) => {
           const nextDay = new Date();
           nextDay.setDate(nextDay.getDate() + day);
-          let formatedNextDay = nextDay.toLocaleDateString('en-US');
-          formatedNextDay = `${formatedNextDay.split('/')[2]}-${formatedNextDay.split('/')[0]}-${formatedNextDay.split('/')[1]}`;
+          let formatedNextDay = nextDay.toISOString().split('T')[0];
           const options: Intl.DateTimeFormatOptions = { weekday: "long", month: "2-digit", day: "2-digit" };
           return <div key={day} className={`rounded-xl text-center p-4 text-black cursor-pointer w-[130px] ${formatedNextDay == selectedDay ? "bg-green-300" : "bg-neutral-100"}`} onClick={() => setSelectedDay(formatedNextDay)}>{nextDay.toLocaleDateString('fa-IR', options)}</div>
         })}
@@ -71,7 +70,7 @@ export default function Booking({ user }: { user: UserType }) {
   const [updateSessions, setUpdateSessions] = useState(true)
   const [updateSessionsError, setUpdateSessionsError] = useState(false)
   const today = new Date(); // Current date
-  const formattedToday = `${today.toLocaleDateString('en-US').split('/')[2]}-${today.toLocaleDateString('en-US').split('/')[0]}-${today.toLocaleDateString('en-US').split('/')[1]}`;
+  const formattedToday = new Date().toISOString().split('T')[0];
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1); // Add one day to today
 
@@ -87,7 +86,7 @@ export default function Booking({ user }: { user: UserType }) {
     if (updateSessions) {
       setUpdateSessionsError(false);
       getSessions()
-        .then((sessions) => {setSessions(sessions); setUpdateSessions(false); console.log('Sessions updated')})
+        .then((sessions) => {setSessions(sessions); setUpdateSessions(false); console.log('Sessions updated: ', sessions.length)})
         .catch(error => {console.error('Error fetching session:', error); setUpdateSessionsError(true); setUpdateSessions(false)});
     }
     setSelectedDaySessions(
@@ -95,7 +94,6 @@ export default function Booking({ user }: { user: UserType }) {
       clinic.rooms,
       48,
       create2DArray(clinic.rooms, 48)))
-
   }, [selectedDay, sessions, updateSessions, updateSessionsError])
 
   //const sessions = [
