@@ -45,7 +45,8 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export async function apiCall<T>(
     url: string,
-    method: HttpMethod = 'GET'
+    method: HttpMethod = 'GET',
+    body?: Record<string, any>,
 ): Promise<T> {
     const storedAccess = await (window as any).electronAPI.getToken('access');
     const response = await fetch(BASE_URL+"/api/2.0" + url, {
@@ -54,13 +55,41 @@ export async function apiCall<T>(
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${storedAccess}`,
         },
+        body: method !== 'GET' ? JSON.stringify(body) : undefined,
     });
-
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (response.status === 401) {
+          const refresh = await (window as any).electronAPI.getToken('refresh');
+          const response = await fetch(`${BASE_URL}/api/token/refresh/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refresh }),
+          });
+          console.log('[Auth Refresh] Response status:', response.status);
+          if (!response.ok) throw new Error('Refresh failed');
+          const { access } = await response.json();
+  
+          console.log('[Auth Refresh] New access token received, storing...');
+          // Store new access token
+          await (window as any).electronAPI.storeToken('access', access);
+          console.log('[Auth Refresh] Access token stored successfully');
+          
+          if (access) {
+              return apiCall<T>(url, method, body);
+          }
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        window.location.href = '/login';
     }
 
     return response.json() as Promise<T>;
+}
+
+
+export async function updateSession(sessionId: number, body: Record<string, any>): Promise<SessionType> {
+    const session = await apiCall<SessionType[]>(`/session/${sessionId}/`, 'PUT', body);
+    return mapToSession(session);
 }
 
 export async function getSessions(userId?: number): Promise<SessionType[]> {
