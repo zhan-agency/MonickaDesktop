@@ -1,6 +1,6 @@
 import { SessionType } from "@/type/monicka";
-import { e2p, timeStringToDecimal } from "@/utils";
-import { ReactNode, useState } from "react";
+import { e2p, timeStringToDecimal, updateSession } from "@/utils";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import arrow90rightIcon from "@/assets/arrow-90deg-right.svg"
 import dollarIcon from "@/assets/currency-dollar.svg"
 import cameraOnIcon from "@/assets/camera-video.svg"
@@ -16,6 +16,7 @@ import pencilIcon from '@/assets/pencil.svg';
 import elipsesIcon from '@/assets/ellipsis-solid-full.svg';
 
 export default function BookingItem({ session, start }: { session: SessionType, start?: number}) {
+
   const CardFront = ({ children, session }: { children: ReactNode, session: SessionType }) => {
     return (
       <div className={`flip-card-front session-item shadow  ${session.isCanceled && "canceled hide"} ${session.isIrregular && "irregular"}`}
@@ -90,10 +91,36 @@ export default function BookingItem({ session, start }: { session: SessionType, 
       </div>
     )
   }
-
+  const [note, setNote] = useState(session.note || "");
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [flip, setFlip] = useState(false)
   const style = start ? {gridColumn: `${session.room*2}/${session.room*2 + 1}`, gridRow: `${(timeStringToDecimal(session.time) - start + 1)* 2}/${(timeStringToDecimal(session.time) - start + (session.length/30) + 1)* 2 + 1}` } : {}
+  const [needRoom, setNeedRoom] = useState(session.needRoom);
+  const [isOnline, setIsOnline] = useState(session.isOnline);
 
+  const handleUpdateSessionIsOnline = () => {
+    updateSession(session.id, { id: session.id, is_online: !isOnline }).then((updatedSession) => {
+      setIsOnline(updatedSession.isOnline);
+    });
+  }
+
+  const handleUpdateSessionNeedRoom = () => {
+    updateSession(session.id, { id: session.id, need_room: !needRoom }).then((updatedSession) => {
+      setNeedRoom(updatedSession.needRoom);
+    });
+  }
+
+  const handleCancelSession = () => {
+    const userConfirmed = window.confirm("آیا از لغو این نوبت اطمینان دارید؟");
+    if (userConfirmed) {
+      console.log("Action confirmed!");
+      updateSession(session.id, { id: session.id, is_canceled: true }).then(() => {
+        window.location.reload();
+      });
+    } else {
+      console.log("Action canceled.");
+    }
+  }
   return (
     <div className={`m-2 flip-card text-black max-w-[380px] ${session.isCanceled && "canceled hide"}`} style={style}>
       <div className={`flip-card-inner ${flip && "flip"}`} id={`inner${session.id}`}>
@@ -102,18 +129,23 @@ export default function BookingItem({ session, start }: { session: SessionType, 
           <SessionInfo session={session} />
           <Indicator title="تغییرات" className="session-edit" type="payment-icon" id={session.id} selectedClass="" icon={pencilIcon} selectHandler={() => setFlip(!flip)} isSelected={true} whiteOffIcon={true} />
           <span style={{marginRight: '38px' , gridColumn: '2/8', gridRow: '7/8' }}>
-            { session.note ?? 'بدون یادداشت' } 
+            { note && note.length > 32 ? note.substring(0, 32) + '...' : note || 'بدون یادداشت' }
           </span>
           <PaymentIndicator session={session} />
           <Indicator title="مشاهده گزینه‌ها" className="session-flip-back front-icon" type="session-back" id={session.id} selectedClass="" icon={elipsesIcon} selectHandler={() => setFlip(!flip)} isSelected={false} whiteOffIcon={true} />
         </CardFront>
         <CardBack>
-          <textarea id={`session-text-${session.id}`} className="session-note" defaultValue={session.note} />
-          <Indicator title="ثبت متن جدید" className="session-submit-text" type="session-edit" id={session.id} selectedClass="" icon={checkIcon} selectHandler={() => ""} isSelected={session.isPaid} whiteOffIcon={true} />
+          <textarea  ref={textAreaRef} id={`session-text-${session.id}`} className="session-note" defaultValue={note} />
+          <Indicator title="ثبت متن جدید" className="session-submit-text" type="session-edit" id={session.id} selectedClass="" icon={checkIcon} selectHandler={() => {
+            updateSession(session.id, {id: session.id, text: textAreaRef?.current?.value || session.note}).then(() => {
+              setNote(textAreaRef?.current?.value || session.note);
+              setFlip(false)
+            })
+          }} isSelected={session.isPaid} whiteOffIcon={true} />
           <Indicator title="بازگشت" className="session-flip-back" type="session-back" id={session.id} selectedClass="" icon={arrow90rightIcon} selectHandler={() => setFlip(!flip)} isSelected={session.isPaid} whiteOffIcon={true} />
-          <Indicator title="لغو نوبت" className="session-cancel" type="cancel-container" id={session.id} selectedClass="" icon={xLgIcon} selectHandler={() => ""} isSelected={true} />
-          <Indicator title="نوبت آنلاین است؟" className="session-online" type="type-container" id={session.id} selectedClass="is-online" icon={cameraOnIcon} offIcon={cameraOffIcon} selectHandler={() => ""} isSelected={session.isOnline} />
-          <Indicator title="نوبت نیازمند اتاقی در مرکز است؟" className="session-room" type="room-container" id={session.id} selectedClass="has-room" icon={houseCheckIcon} offIcon={houseSlashIcon} selectHandler={() => ""} isSelected={session.needRoom} />
+          <Indicator title="لغو نوبت" className="session-cancel" type="cancel-container" id={session.id} selectedClass="" icon={xLgIcon} selectHandler={() => handleCancelSession} isSelected={true} />
+          <Indicator title="نوبت آنلاین است؟" className="session-online" type="type-container" id={session.id} selectedClass="is-online" icon={cameraOnIcon} offIcon={cameraOffIcon} selectHandler={handleUpdateSessionIsOnline} isSelected={isOnline} />
+          <Indicator title="نوبت نیازمند اتاقی در مرکز است؟" className="session-room" type="room-container" id={session.id} selectedClass="has-room" icon={houseCheckIcon} offIcon={houseSlashIcon} selectHandler={handleUpdateSessionNeedRoom} isSelected={needRoom} />
           <Indicator title={`لینک پیش‌پرداخت:  mnka.ir/s/${session.id}`} className="session-payment-link" type="link-container" id={session.id} selectedClass="" icon={chain45Icon} selectHandler={() => { navigator.clipboard.writeText(`http:// mnka.ir/s/${session.id}`); alert('لینک پیش پرداخت کپی شد. می‌توانید لینک را در نرم‌افزار مورد نظر خود ارسال کنید.') }} isSelected={true} />
           <div className="session-last-modified-by" title="چه کسی آخرین تغییر را در این نوبت ثبت کرده است؟">
             آخرین تغییر توسط:
@@ -125,3 +157,4 @@ export default function BookingItem({ session, start }: { session: SessionType, 
   )
 
 }
+
