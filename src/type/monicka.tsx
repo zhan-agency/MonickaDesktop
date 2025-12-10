@@ -105,3 +105,40 @@ export type DayType = {
   date: string;
   isAvailable: boolean;
 }
+
+export type TestType = {
+  id: number;
+  type: string;
+  participant: string;
+  title: string;
+  answers: string;
+  date: string;
+}
+
+export type MBTITestType = TestType & {
+  scores: {
+    i: number;
+    e: number;
+    p: number;
+    j: number;
+    n: number;
+    s: number;
+    f: number;
+    t: number;
+  }
+}
+
+export type MBTI5TestType = TestType & {
+  scores: {
+    i: number;
+    e: number;
+    p: number;
+    j: number;
+    n: number;
+    s: number;
+    f: number;
+    t: number;
+    a: number;
+    tu: number;
+  }
+}

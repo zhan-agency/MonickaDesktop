@@ -1,4 +1,4 @@
-import { ClinicType, JalaliMonthType, SessionType, TherapistType, UserType } from "./type/monicka";
+import { ClinicType, JalaliMonthType, SessionType, TestType, TherapistType, UserType } from "./type/monicka";
 
 export const jalaliMonths: { [key: number]: JalaliMonthType } = {
     1: { name: 'فروردین', length: 31 },
@@ -73,7 +73,7 @@ export async function apiCall<T>(
           // Store new access token
           await (window as any).electronAPI.storeToken('access', access);
           console.log('[Auth Refresh] Access token stored successfully');
-          
+
           if (access) {
               return apiCall<T>(url, method, body);
           }
@@ -98,8 +98,18 @@ export async function getSessions(userId?: number): Promise<SessionType[]> {
 }
 
 export async function getClinics(userId?: number): Promise<ClinicType[]> {
-    const sessions = await apiCall<SessionType[]>(`/clinic/`);
+    const sessions = await apiCall<ClinicType[]>(`/clinic/`);
     return sessions.map((clinic: {[key: string]: any}) => mapToClinic(clinic));
+}
+
+export async function getTests(userType: number = 3): Promise<TestType[]> {
+    if (userType == 3) {
+      const sessions = await apiCall<TestType[]>(`/test/`);
+      return sessions.map((test: {[key: string]: any}) => mapToTest(test));
+    }
+    const sessions = await apiCall<TestType[]>(`/test/assigned/`);
+    return sessions.map((test: {[key: string]: any}) => mapToTest(test));
+    
 }
 
 export function mapToUser(data: { [key: string]: any }): UserType {
@@ -162,3 +172,13 @@ export function mapToSession(data: { [key: string]: any }): SessionType {
     }
 }
 
+export function mapToTest(data: { [key: string]: any }): TestType {
+  return {
+    id: data.id,
+    type: data.type,
+    participant: data.participant,
+    title: data.title,
+    date: data.date,
+    answers: data.answers
+  }
+}
