@@ -9,6 +9,7 @@ import { ClinicType, UserType } from './type/monicka'
 import Calendar from './pages/Calendar'
 import Booking from './pages/Booking'
 import { getClinics } from './utils'
+import TestList from './pages/TestList'
 
 function App() {
   const { isAuthenticated, isLoading } = useContext(AuthContext)
@@ -70,6 +71,7 @@ function App() {
         <Route element={<MainLayout user={user} />}>
           <Route path="/" element={<Home user={user} />} />
           <Route path="/calendar" element={<Calendar user={user} />} />
+          <Route path="/test_list" element={<TestList user={user} />} />
           <Route path="/booking" element={<Booking user={user} />} />
         </Route>
       </Routes>
