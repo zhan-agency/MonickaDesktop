@@ -90,10 +90,13 @@ export default function Booking({ user }: { user: UserType }) {
         .catch(error => {console.error('Error fetching session:', error); setUpdateSessionsError(true); setUpdateSessions(false)});
     }
     setSelectedDaySessions(
-      fitSessionsIntoChart(sessions.filter(session => session.date === selectedDay && session.clinic.id == clinic.id && session.isCanceled == false),
-      clinic.rooms,
-      48,
-      create2DArray(clinic.rooms, 48)))
+      fitSessionsIntoChart(
+        sessions.filter(session => session.date === selectedDay && session.isCanceled == false),
+        clinic.rooms,
+        48,
+        create2DArray(clinic.rooms, 48)
+      )
+    )
   }, [selectedDay, sessions, updateSessions, updateSessionsError])
 
   //const sessions = [
@@ -123,6 +126,15 @@ export default function Booking({ user }: { user: UserType }) {
     </div>
 
   if (!clinic) return <></>
+  console.log({
+    selectedDay: selectedDay,
+    clinic: clinic.id,
+    sessions: sessions.length,
+    daySessions: sessions.filter(session => session.date === selectedDay ),
+    dayClinicSessions: sessions.filter(session => session.date === selectedDay && session.clinic.id == clinic.id ),
+    expectedSessions: sessions.filter(session => session.date === selectedDay && session.clinic.id == clinic.id && session.isCanceled == false).length,
+    selectedDaySessions: selectedDaySessions.length,
+  })
   return (
     <main id="main" className="w3-main-padding px-16">
       <span className={`week-container ${clinic.rooms > 3 ? "w-full" : "max-w-[1300px]"}`}>
@@ -130,7 +142,7 @@ export default function Booking({ user }: { user: UserType }) {
         <DaysBar selectedDay={selectedDay} setSelectedDay={setSelectedDay} ultraWide={clinic.rooms > 3}/>
         {calendarMode ?
           <CalendarModeView sessions={selectedDaySessions} clinic={clinic} selectedDay={selectedDay} setSelectedDay={setSelectedDay} start={start} end={end} /> :
-          <TableModeView sessions={sessions.filter(session => session.date === selectedDay && session.clinic.id == clinic.id ).sort((a, b) => timeStringToDecimal(a.time) - timeStringToDecimal(b.time))} selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
+          <TableModeView sessions={sessions.filter(session => session.date === selectedDay).sort((a, b) => timeStringToDecimal(a.time) - timeStringToDecimal(b.time))} selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
         }
       </span>
     </main>
