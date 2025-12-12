@@ -13,14 +13,20 @@ const HeaderNavbarItem = ({ to, title }: { to: string; title: string }) => {
     )
   }
 
-  const HeaderNavbarIcon = ({ to, icon }: { to: string; icon: string }) => {
+  const HeaderNavbarIcon = ({ to, icon, onClickHandler }: { to?: string; icon: string, onClickHandler?: ()=>void }) => {
+    if (!to) {
+      return (
+        <div className="w3-button w3-round w3-left" style={{ padding: "4px", margin: "0px 8px" }} onClick={onClickHandler}>
+          <img className="w3-bar-item w3-top-menu-icon w3-svg-color1" src={icon} />
+        </div>
+      )
+    }
     return (
       <div className="w3-button w3-round w3-left" style={{ padding: "4px", margin: "0px 8px" }}>
         <Link to={to}>
           <img className="w3-bar-item w3-top-menu-icon w3-svg-color1" src={icon} />
         </Link>
       </div>
-
     )
   }
 
@@ -36,6 +42,12 @@ const HeaderNavbarItem = ({ to, title }: { to: string; title: string }) => {
     )
   }
 
+  const handleLogout = () => {
+    (window as any).electronAPI.deleteToken('refresh');
+    (window as any).electronAPI.deleteToken('access');
+    window.location.href = '/login';
+  }
+
   const NavbarItems = ({user}: {user: UserType}) => {
     return (
       <div>
@@ -49,7 +61,7 @@ const HeaderNavbarItem = ({ to, title }: { to: string; title: string }) => {
               <HeaderNavbarItem to="/" title="برنامه مشاورین" />
               <HeaderNavbarItem to="/support" title="پشتیبانی" />
               <HeaderNavbarIcon to="/user_profile" icon={userIcon} />
-              <HeaderNavbarIcon to="/user_logout" icon={powerOffIcon} />
+              <HeaderNavbarIcon icon={powerOffIcon} onClickHandler={handleLogout} />
             </>
           ) : (
             <>
