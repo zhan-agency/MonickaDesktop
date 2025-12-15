@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { BASE_URL as API_URL } from '@/utils';
+import { BASE_URL as API_URL, mapToUser } from '@/utils';
+import { UserType } from '@/type/monicka';
 
 type AuthContextType = {
   accessToken: string;
@@ -9,6 +10,7 @@ type AuthContextType = {
   authenticate: (username: string, password: string) => Promise<{ success: boolean; error?: string }>;
   refreshAccessToken: () => Promise<void>;
   logout: () => Promise<void>;
+  user: UserType | undefined;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -19,12 +21,14 @@ export const AuthContext = createContext<AuthContextType>({
   authenticate: async () => ({ success: false, error: 'Not implemented' }),
   refreshAccessToken: async () => {},
   logout: async () => {},
+  user: undefined,
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [accessToken, setAccessToken] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<UserType>()
 
   useEffect(() => {
     // On app load, try to refresh access if refresh exists
@@ -56,7 +60,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw new Error('Authentication failed: ' + response.status);
       }
       
-      const { access, refresh } = await response.json();
+      const { access, refresh, user } = await response.json();
+      setUser(mapToUser(user));
       console.log('[Auth] Received tokens, storing...');
       
       // Store tokens securely
@@ -96,7 +101,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       console.log('[Auth Refresh] Response status:', response.status);
       if (!response.ok) throw new Error('Refresh failed');
-      const { access } = await response.json();
+      const { access, user } = await response.json();
+      setUser(mapToUser(user));
       
       console.log('[Auth Refresh] New access token received, storing...');
       // Store new access token
@@ -123,7 +129,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ accessToken, isAuthenticated, isLoading, setAccessToken, authenticate, refreshAccessToken, logout }}>
+    <AuthContext.Provider value={{ accessToken, isAuthenticated, isLoading, setAccessToken, authenticate, refreshAccessToken, logout, user }}>
       {children}
     </AuthContext.Provider>
   );

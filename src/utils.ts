@@ -102,8 +102,9 @@ export async function getClinics(userId?: number): Promise<ClinicType[]> {
     return sessions.map((clinic: {[key: string]: any}) => mapToClinic(clinic));
 }
 
-export async function getAssignTests(userType: number = 3): Promise<AssignTestType[]> {
-      const sessions = await apiCall<TestType[]>(`/assign_test/`);
+export async function getAssignTests(recent: boolean = false): Promise<AssignTestType[]> {
+    const url = recent ? '/assign_test/recent/' : '/assign_test/';  
+    const sessions = await apiCall<TestType[]>(url);
       return sessions.map((test: {[key: string]: any}) => mapToAssignTest(test));    
 }
 
@@ -121,23 +122,23 @@ export function mapToUser(data: { [key: string]: any }): UserType {
     return {
         firstName: data.user.first_name,
         lastName: data.user.last_name,
-        is_authenticated: false,
+        is_authenticated: true,
         is_superuser: false,
-        email: "test@email.com",
+        email: "",
         get_full_name: data.user.first_name + ' ' + data.user.last_name,
         profile: {
-            type: "psy",
-            get_type_display: "مراجع",
+            type: "",
+            get_type_display: "",
             get_level_display: "",
             phone: data.phone_number,
         },
-        clinics: []
+        clinics: data.user.clinic ? [mapToClinic(data.user.clinic)] : []
     }
 }
 
 export function mapToClinic(data: { [key: string]: any }): ClinicType {
     return {
-        id: data.id || 0,
+        id: data.id ?? 0,
         name: data.name,
         rooms: data.capacity,
         owner_id: data.owner,
