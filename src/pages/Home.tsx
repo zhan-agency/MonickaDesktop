@@ -63,45 +63,33 @@ export default function Home({ user }: { user: UserType }) {
         title: "نمایش نوبت‌ها",
       },
       {
-        to: "/schedule/dashboard",
-        title: "نمایش نوبت‌ها",
-      },
-      {
-        to: "/schedule/dashboard",
-        title: "نمایش نوبت‌ها",
-      },
-      {
-        to: "/schedule/dashboard",
-        title: "نمایش نوبت‌ها",
-      },
-      {
-        to: "/schedule/dashboard",
-        title: "نمایش نوبت‌ها",
+        to: "/test_list",
+        title: "نمایش آزمون‌ها",
       },
     ]
   }
   const testsTileProps = {
     items: [
-      {
-        title: "سارا برهانی - MBTI",
-        to: "/test/1",
-        date: "۱۴۰۴/۰۲/۱۲",
-      },
-      {
-        title: "شهرزاد مهریز - GOL",
-        to: "/test/1",
-        date: "۱۴۰۴/۰۲/۱۲",
-      },
-      {
-        title: "حسین محمودی - CATTEL",
-        to: "/test/1",
-        date: "۱۴۰۴/۰۲/۱۲",
-      },
+      //{
+      //  title: "سارا برهانی - MBTI",
+      //  to: "/test/1",
+      //  date: "۱۴۰۴/۰۲/۱۲",
+      //},
+      //{
+      //  title: "شهرزاد مهریز - GOL",
+      //  to: "/test/1",
+      //  date: "۱۴۰۴/۰۲/۱۲",
+      //},
+      //{
+      //  title: "حسین محمودی - CATTEL",
+      //  to: "/test/1",
+      //  date: "۱۴۰۴/۰۲/۱۲",
+      //},
     ],
     titleBar: {
       to: "/test",
       button_to: "/test/new",
-      title: "آزمون‌های من",
+      title: "اعلان‌های من",
       icon: folderOpenIcon,
       button_icon: plusIcon,
       iconBackgroundClassName: "bg-blue-400",

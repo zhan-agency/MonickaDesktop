@@ -9,13 +9,14 @@ export default function TestList({user}: {user: UserType}) {
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
     useEffect(() => {
       if (firstLoad) {
-        getAssignTests().then((data) => {
+        getAssignTests(true).then((data) => {
           setTests(data)
           setFirstLoad(false);
         });
       }
     }, [tests]);
     console.log(tests)
+
     return (
       <main id="main" className="w3-main-padding">
         <div className="w3-container" style={{paddingBottom: "16px"}}>
@@ -34,15 +35,27 @@ export default function TestList({user}: {user: UserType}) {
 
          <div style={{padding: '8px'}}>
             <ul className="w3-ul w3-hoverable">
+               { tests.length == 0 ? (
+                  <li className="w3-round-large">
+                    <a>
+                        <time className="w3-left"> </time>                            
+                       <br className="w3-hide-large w3-hide-medium" />
+                       <h3 style={{color:'black'}}>
+                           در حال اتصال به سرور...
+                       </h3>
+                    </a>
+                 </li>
+               ):(<></>)
+            }
 
                {tests.sort((a, b) => b.id - a.id).map((test, index) => (
                  <li key={index} className="w3-round-large">
                     <a style={{textDecoration: 'none'}} href={`test/${ test.id }/`}>
                         <time className="w3-left"> 
-                          { test.date }
+                          { new Date(test.assign_date).toLocaleString('fa-IR') }
                         </time>                            
                        <br className="w3-hide-large w3-hide-medium" />
-                       <h3>
+                       <h3  style={{color:'black'}}>
                          { test.test.participant.get_full_name } - { test.test.get_type_display }
                        </h3>
                     </a>

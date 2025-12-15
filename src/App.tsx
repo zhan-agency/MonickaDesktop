@@ -12,7 +12,7 @@ import { getClinics } from './utils'
 import TestList from './pages/TestList'
 
 function App() {
-  const { isAuthenticated, isLoading } = useContext(AuthContext)
+  const { isAuthenticated, isLoading, user } = useContext(AuthContext)
   const [clinics, setClinics] = useState<ClinicType[]>([])
 
   useEffect(() => {
@@ -44,27 +44,7 @@ function App() {
     )
   }
   
-  const user: UserType = {
-    is_authenticated: true,
-    email: "myemail@domain.com",
-    get_full_name: "حسین پشتیبان",
-    profile: {
-      type: "3",
-      get_type_display: "منشی",
-      get_level_display: "طلایی",
-      phone: '09124572171',
-    },
-    is_superuser: false,
-    clinics: clinics[0]?.id ? clinics : [
-      {
-        id: 1,
-        name: 'کلینیک زیبا',
-        owner_id: 1,
-        rooms: 5,
-        phone: 9124572171,
-      }
-    ]
-  }
+  if (!user) {return <></>}
   return (
     <Router>
       <Routes>
