@@ -106,14 +106,23 @@ export type DayType = {
   isAvailable: boolean;
 }
 
+export type AssignTestType = {
+  id: number;
+  test: TestType;
+  assign_date: string;
+}
+
 export type TestType = {
   id: number;
   type: string;
-  participant: string;
+  get_type_display: string;
+  participant: UserType;
   title: string;
   answers: string;
   date: string;
 }
+
+export type typeKeys = 'short_neo' | 'neo_long' | 'scl_90_r' | 'mbti' | 'mbti_5' | 'catel_16pf' | 'mcmi_iii' | 'bdi' | 'bai' | 'b_a_eqi' | 'mii' | 'glasser';
 
 export type MBTITestType = TestType & {
   scores: {
