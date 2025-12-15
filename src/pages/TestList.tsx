@@ -2,20 +2,20 @@ import { UserType } from "@/type/monicka";
 import folderOpenIcon from '@/assets/folder-open.svg';
 import plusIcon from '@/assets/plus.svg';
 import { useEffect, useState } from "react";
-import { getTests } from "@/utils";
+import { getAssignTests } from "@/utils";
 
 export default function TestList({user}: {user: UserType}) {
     const [tests, setTests] = useState<Array<{[key: string]: any}>>([]);
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
     useEffect(() => {
       if (firstLoad) {
-        getTests().then((data) => {
+        getAssignTests().then((data) => {
           setTests(data)
           setFirstLoad(false);
         });
       }
     }, [tests]);
-
+    console.log(tests)
     return (
       <main id="main" className="w3-main-padding">
         <div className="w3-container" style={{paddingBottom: "16px"}}>
@@ -35,15 +35,15 @@ export default function TestList({user}: {user: UserType}) {
          <div style={{padding: '8px'}}>
             <ul className="w3-ul w3-hoverable">
 
-               {tests.map((test, index) => (
+               {tests.sort((a, b) => b.id - a.id).map((test, index) => (
                  <li key={index} className="w3-round-large">
                     <a style={{textDecoration: 'none'}} href={`test/${ test.id }/`}>
                         <time className="w3-left"> 
-                          { test.date.toLocalString() }
+                          { test.date }
                         </time>                            
                        <br className="w3-hide-large w3-hide-medium" />
                        <h3>
-                         { test.sender.profile } - { test.assigned_test.get_type_display }
+                         { test.test.participant.get_full_name } - { test.test.get_type_display }
                        </h3>
                     </a>
                  </li>

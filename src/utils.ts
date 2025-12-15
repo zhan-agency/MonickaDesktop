@@ -1,4 +1,4 @@
-import { ClinicType, JalaliMonthType, SessionType, TestType, TherapistType, UserType } from "./type/monicka";
+import { AssignTestType, ClinicType, JalaliMonthType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
 
 export const jalaliMonths: { [key: number]: JalaliMonthType } = {
     1: { name: 'فروردین', length: 31 },
@@ -102,6 +102,11 @@ export async function getClinics(userId?: number): Promise<ClinicType[]> {
     return sessions.map((clinic: {[key: string]: any}) => mapToClinic(clinic));
 }
 
+export async function getAssignTests(userType: number = 3): Promise<AssignTestType[]> {
+      const sessions = await apiCall<TestType[]>(`/assign_test/`);
+      return sessions.map((test: {[key: string]: any}) => mapToAssignTest(test));    
+}
+
 export async function getTests(userType: number = 3): Promise<TestType[]> {
     if (userType == 3) {
       const sessions = await apiCall<TestType[]>(`/test/`);
@@ -170,13 +175,37 @@ export function mapToSession(data: { [key: string]: any }): SessionType {
         last_modified_by: data.last_modified_by,
         room: 0,
     }
+}   
+
+export function mapToAssignTest(data: { [key: string]: any }): AssignTestType {
+    return {
+        id: data.id || 0,
+        test: mapToTest(data.test),
+        assign_date: data.assign_date,
+    }
+}
+
+export const typeDict = {
+    short_neo: 'نئو (فرم کوتاه)',
+    neo_long: 'نئو (فرم بلند)',
+    scl_90_r: 'چک‌لیست نشانه‌های اختلالات روانی (SCL-90-R)',
+    mbti: 'ام‌بی‌تی‌آی (MBTI)',
+    mbti_5: 'ام‌بی‌تی‌آی ۵ عاملی (MBTI 5)',
+    catel_16pf: 'شخصیت کتل',
+    mcmi_iii: 'شخصیت میلون (MCMI_III)',
+    bdi: 'شاخص افسردگی بک',
+    bai: 'شاخص اضطراب بک',
+    b_a_eqi: 'پرسشنامه هوش هیجانی بار-آن',
+    mii: 'آزمون هوش چندوجهی گاردنر',
+    glasser: 'آزمون نیازهای اساسی گلسر',
 }
 
 export function mapToTest(data: { [key: string]: any }): TestType {
   return {
     id: data.id,
     type: data.type,
-    participant: data.participant,
+    get_type_display: typeDict[data.type as typeKeys],
+    participant: mapToUser(data.participant),
     title: data.title,
     date: data.date,
     answers: data.answers
