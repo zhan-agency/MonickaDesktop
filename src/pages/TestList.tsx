@@ -1,11 +1,13 @@
-import { UserType } from "@/type/monicka";
+import { AssignTestType, UserType } from "@/type/monicka";
 import folderOpenIcon from '@/assets/folder-open.svg';
 import plusIcon from '@/assets/plus.svg';
 import { useEffect, useState } from "react";
 import { getAssignTests } from "@/utils";
+import TestDetail from "./TestDetail";
 
 export default function TestList({user}: {user: UserType}) {
-    const [tests, setTests] = useState<Array<{[key: string]: any}>>([]);
+    const [tests, setTests] = useState<AssignTestType[]>([]);
+    const [test, setTest] = useState<AssignTestType>();
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
     useEffect(() => {
       if (firstLoad) {
@@ -14,8 +16,12 @@ export default function TestList({user}: {user: UserType}) {
           setFirstLoad(false);
         });
       }
-    }, [tests]);
+    }, [tests, test]);
     console.log(tests)
+
+    if (test) {
+      return <TestDetail test={test as AssignTestType} setTest={setTest} />
+    }
 
     return (
       <main id="main" className="w3-main-padding">
@@ -50,7 +56,7 @@ export default function TestList({user}: {user: UserType}) {
 
                {tests.sort((a, b) => b.id - a.id).map((test, index) => (
                  <li key={index} className="w3-round-large">
-                    <a style={{textDecoration: 'none'}} href={`test/${ test.id }/`}>
+                    <div style={{textDecoration: 'none'}} onClick={()=> setTest(test)}>
                         <time className="w3-left"> 
                           { new Date(test.assign_date).toLocaleString('fa-IR') }
                         </time>                            
@@ -58,7 +64,7 @@ export default function TestList({user}: {user: UserType}) {
                        <h3  style={{color:'black'}}>
                          { test.test.participant.get_full_name } - { test.test.get_type_display }
                        </h3>
-                    </a>
+                    </div>
                  </li>
                ))}
             </ul>
