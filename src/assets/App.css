@@ -103,6 +103,11 @@ main {
   margin-bottom: 0px;
 }
 
+.resultPanel {
+  height: calc(100vh - var(--top-menu-height) - var(--footer-height) - 80px);
+  overflow-y: scroll;
+}
+
 @media (min-width: 601px) {
   .w3-main-padding {
      padding-top: 50px;
@@ -319,6 +324,7 @@ main {
 @media (min-width: 601px) and (min-height: 601px) {
   .w3-detailbox {
      padding-bottom: 50px;
+     padding-bottom: 0;
   }
 }
 @media (min-width: 601px) and (max-height: 600px) {

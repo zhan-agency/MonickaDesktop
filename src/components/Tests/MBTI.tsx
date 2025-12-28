@@ -1,8 +1,72 @@
 import { Bar } from 'react-chartjs-2';
 import { useMemo } from 'react';
+import { ChartOptions } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './chart.js'
+import { MBTI5TestType, TestType } from '@/type/monicka.js';
 
-export default function MBTI({ test }) {
+const TestGuide = ({typeIndicator, persianTypeIndicator}:{typeIndicator: string, persianTypeIndicator: string}) => {
+  return (
+    <>
+      <div className="w3-container w3-canvas-caption text-black">
+        <p>
+           تیپ شخصیتی
+          <span id="typeIndicator"> {typeIndicator} </span>
+          گزارش شده است.
+        </p>
+      </div>
+
+      <div className="w3-margin-top w3-margin-bottom text-black">
+        <div id="guide" className="w3-redirectable w3-hide w3-show">
+          <div className="w3-container">
+            <div>
+              <h4>راهنما و تحلیل آزمون</h4>
+              <p>
+                این آزمون دارای ۱۰ عامل است که دو به دو در مقابل هم قرار
+                دارند:
+              </p>
+              <p>
+                <strong>درون‌گرایی یا برون‌گرایی (I-E):</strong>
+                عامل E نشان‌دهنده میزان برونگرایی و عامل I نشان‌دهنده میزان
+                دورن‌گرایی آزمون‌دهنده است.
+              </p>
+              <p>
+                <strong>شهودی یا نکته‌بین بودن (N-S):</strong>
+                عامل N نشان‌دهنده میزان شهودی بودن و عامل S نشان‌دهنده میزان
+                حسی بودن یا نکته‌بینی آزمون‌دهنده است.
+              </p>
+              <p>
+                <strong>احساسی یا مطنقی بودن (F-T):</strong>
+                عامل F نشان‌دهنده میزان احساسی بودن و عامل T نشان‌دهنده
+                میزان منطقی بودن آزمون‌دهنده است.
+              </p>
+              <p>
+                <strong>قضاوتی یا ادراکی بودن (J-P):</strong>
+                عامل J نشان‌دهنده میزان قضاوتی بودن و عامل P نشان‌دهنده
+                میزان ادراکی بودن آزمون‌دهنده است.
+              </p>
+              <p>
+                <strong>قاطع یا بی‌قرار بودن (A-Tu):</strong>
+                عامل Tu نشان‌دهنده میزان بی‌قراری و عامل A نشان‌دهنده میزان
+                قاطع بودن آزمون‌دهنده است.
+              </p>
+
+              <p>
+                وجه غالب شخصیت آزمون‌دهنده با توجه به مقایسه نمره هر یک از
+                جفت‌عامل‌ها تعیین می‌شود. در این آزمون تیپ شخصیتی
+                 آزمون‌دهنده به صورت 
+                <strong> {persianTypeIndicator} </strong>
+                گزارش شده است.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default function MBTI({ test }: { test: MBTI5TestType }) {
 
   /* -------------------------
      1. TYPE INDICATORS
@@ -11,19 +75,19 @@ export default function MBTI({ test }) {
     let type = '';
     let fa = '';
 
-    if (+test.e > +test.i) { type += 'E'; fa += 'برون‌گرا/'; }
+    if (+test.scores.e > +test.scores.i) { type += 'E'; fa += 'برون‌گرا/'; }
     else { type += 'I'; fa += 'درون‌گرا/'; }
 
-    if (+test.n > +test.s) { type += 'N'; fa += 'شهودی/'; }
+    if (+test.scores.n > +test.scores.s) { type += 'N'; fa += 'شهودی/'; }
     else { type += 'S'; fa += 'نکته‌بین/'; }
 
-    if (+test.f > +test.t) { type += 'F'; fa += 'احساسی/'; }
+    if (+test.scores.f > +test.scores.t) { type += 'F'; fa += 'احساسی/'; }
     else { type += 'T'; fa += 'منطقی/'; }
 
-    if (+test.j > +test.p) { type += 'J'; fa += 'قضاوتی/'; }
+    if (+test.scores.j > +test.scores.p) { type += 'J'; fa += 'قضاوتی/'; }
     else { type += 'P'; fa += 'ادراکی/'; }
 
-    if (+test.a > +test.tu) { type += '-A'; fa += 'قاطع'; }
+    if (+test.scores.a > +test.scores.tu) { type += '-A'; fa += 'قاطع'; }
     else { type += '-Tu'; fa += 'بی‌قرار'; }
 
     return { typeIndicator: type, persianTypeIndicator: fa };
@@ -33,16 +97,16 @@ export default function MBTI({ test }) {
      2. VALUES (UNCHANGED LOGIC)
   -------------------------- */
   const yValues = [
-    +test.e / 72 * 100,
-    +test.n / 72 * 100,
-    +test.f / 72 * 100,
-    +test.j / 72 * 100,
-    +test.a / 72 * 100,
-    +test.i / 72 * 100,
-    +test.s / 72 * 100,
-    +test.t / 72 * 100,
-    +test.p / 72 * 100,
-    +test.tu / 72 * 100
+    +test.scores.e / 72 * 100,
+    +test.scores.n / 72 * 100,
+    +test.scores.f / 72 * 100,
+    +test.scores.j / 72 * 100,
+    +test.scores.a / 72 * 100,
+    +test.scores.i / 72 * 100,
+    +test.scores.s / 72 * 100,
+    +test.scores.t / 72 * 100,
+    +test.scores.p / 72 * 100,
+    +test.scores.tu / 72 * 100
   ];
 
   const traits = [
@@ -60,7 +124,7 @@ export default function MBTI({ test }) {
   -------------------------- */
   const sideLabelsPlugin = useMemo(() => ({
     id: 'sideLabelsAndIndicators',
-    afterDraw(chart) {
+    afterDraw(chart: any) {
       const { ctx, scales } = chart;
       const xScale = scales.x;
       const yScale = scales.y;
@@ -109,7 +173,7 @@ export default function MBTI({ test }) {
     }]
   };
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     indexAxis: 'y',
     responsive: true,
     maintainAspectRatio: false,
@@ -128,11 +192,7 @@ export default function MBTI({ test }) {
       y: { grid: { display: false } }
     },
     plugins: {
-      legend: { display: false },
-      datalabels: {
-        formatter: Math.round,
-        font: { family: 'Vazirmatn', weight: 'bold' }
-      }
+      legend: { display: false }
     }
   };
 
@@ -140,10 +200,7 @@ export default function MBTI({ test }) {
      5. RENDER
   -------------------------- */
   return (
-    <>
-      <div id="typeIndicator">{typeIndicator}</div>
-      <div id="persianTypeIndicator">{persianTypeIndicator}</div>
-
+    <div className='bg-white'>
       <div style={{ height: 400 }}>
         <Bar
           data={data}
@@ -151,6 +208,7 @@ export default function MBTI({ test }) {
           plugins={[sideLabelsPlugin]}
         />
       </div>
-    </>
+      <TestGuide typeIndicator={typeIndicator} persianTypeIndicator={persianTypeIndicator}/>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { AssignTestType, ClinicType, JalaliMonthType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
+import { AssignTestType, ClinicType, JalaliMonthType, MBTI5TestType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
 
 export const jalaliMonths: { [key: number]: JalaliMonthType } = {
     1: { name: 'فروردین', length: 31 },
@@ -201,7 +201,31 @@ export const typeDict = {
     glasser: 'آزمون نیازهای اساسی گلسر',
 }
 
-export function mapToTest(data: { [key: string]: any }): TestType {
+export function mapToTest(data: { [key: string]: any }): MBTI5TestType {
+  const scores = data.type ==='mbti_5' ? {
+    e: parseInt(data.e || 0),
+    n: parseInt(data.n || 10),
+    f: parseInt(data.f || 0),
+    j: parseInt(data.j || 10),
+    a: parseInt(data.a || 0),
+    i: parseInt(data.i || 10),
+    s: parseInt(data.s || 0),
+    t: parseInt(data.t || 10),
+    p: parseInt(data.p || 0),
+    tu: parseInt(data.tu || 10),
+  }: {
+    e:  0,
+    n:  0,
+    f:  0,
+    j:  0,
+    a:  0,
+    i:  0,
+    s:  0,
+    t:  0,
+    p:  0,
+    tu: 0,
+  }
+
   return {
     id: data.id,
     type: data.type,
@@ -209,6 +233,7 @@ export function mapToTest(data: { [key: string]: any }): TestType {
     participant: mapToUser(data.participant),
     title: data.title,
     date: data.date,
-    answers: data.answers
+    answers: data.answers,
+    scores: scores,
   }
 }

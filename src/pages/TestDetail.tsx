@@ -1,4 +1,4 @@
-import { AssignTestType, TestType } from "@/type/monicka";
+import { AssignTestType, MBTI5TestType, TestType } from "@/type/monicka";
 import folderOpenIcon from '@/assets/folder-open.svg';
 import plusIcon from '@/assets/plus.svg';
 import { useEffect, useState } from "react";
@@ -7,9 +7,10 @@ import clipboardListCheckIcon from "@/assets/clipboard-list-check.svg";
 import printIcon from "@/assets/print.svg"
 import arrowUpRightFromSquareIcon from "@/assets/arrow-up-right-from-square.svg"
 import toolBoxIcon from "@/assets/toolbox.svg"
+import MBTI from "@/components/Tests/MBTI";
 
 export default function TestDetail({ test, setTest }: { test: AssignTestType, setTest: (test: AssignTestType) => void }) {
-
+  const testObj: TestType = test.test; 
   const SidePanel = ({ assignedTest }: { assignedTest: AssignTestType }) => {
     const test: TestType = assignedTest.test;
     return (
@@ -180,6 +181,12 @@ export default function TestDetail({ test, setTest }: { test: AssignTestType, se
 //
     )
   }
+
+const TestResult = ({assignedTest}: {assignedTest: AssignTestType}) => {
+  if (assignedTest.test.type === 'mbti_5') return <div className="resultPanel"><MBTI test={assignedTest.test as MBTI5TestType} /></div>
+  return <></>
+}
+
 return (
   <main id="main" className="fixed-footer w3-fixed-main">
     <div className="w3-title-bar-fixed">
@@ -234,17 +241,10 @@ return (
 
     <div>
       <div className="w3-row">
-        <div className="w3-left w3-threequarter w3-detailbox w3-detailbox-mobile">
-          <span className="w3-container w3-margin-right" style={{ padding: '8px' }}>
-
-          </span>
-        </div>
         <SidePanel assignedTest={test} />
-
-
-
-
-
+        <div className="w3-left w3-threequarter w3-detailbox w3-detailbox-mobile">
+          <TestResult assignedTest={test} />
+        </div>
       </div>
     </div>
     <span className="w3-hide" id="a">{test.test.answers}</span>
