@@ -187,6 +187,7 @@ const TestResult = ({assignedTest}: {assignedTest: AssignTestType}) => {
   return <></>
 }
 
+console.log('test_detail: assignedTest: ', test);
 return (
   <main id="main" className="fixed-footer w3-fixed-main">
     <div className="w3-title-bar-fixed">

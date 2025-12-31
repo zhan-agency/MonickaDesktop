@@ -137,17 +137,37 @@ export type MBTITestType = TestType & {
   }
 }
 
-export type MBTI5TestType = TestType & {
-  scores: {
-    i: number;
-    e: number;
-    p: number;
-    j: number;
-    n: number;
-    s: number;
-    f: number;
-    t: number;
-    a: number;
-    tu: number;
-  }
+export type MBTI5TestScoresType = {
+  i: number;
+  e: number;
+  p: number;
+  j: number;
+  n: number;
+  s: number;
+  f: number;
+  t: number;
+  a: number;
+  tu: number;
 }
+
+export type Cattel16pfTestScoresType = {
+  a: number; 
+  b: number; 
+  c: number; 
+  e: number; 
+  f: number; 
+  g: number; 
+  h: number; 
+  i: number; 
+  l: number; 
+  m: number; 
+  n: number; 
+  o: number; 
+  q1: number;
+  q2: number;
+  q3: number;
+  q4: number;
+}
+
+export type Cattel16pfTestType = TestType & { scores: Cattel16pfTestScoresType }; 
+export type MBTI5TestType = TestType & { scores: MBTI5TestScoresType };
