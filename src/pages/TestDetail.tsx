@@ -1,9 +1,10 @@
-import { AssignTestType, MBTI5TestType, TestType } from "@/type/monicka";
+import { AssignTestType, Cattel16pfTestType, MBTI5TestType, TestType } from "@/type/monicka";
 import clipboardListCheckIcon from "@/assets/clipboard-list-check.svg";
 import printIcon from "@/assets/print.svg"
 import arrowUpRightFromSquareIcon from "@/assets/arrow-up-right-from-square.svg"
 import toolBoxIcon from "@/assets/toolbox.svg"
 import MBTI from "@/components/Tests/MBTI";
+import Cattel6pf from "@/components/Tests/CATTEL";
 
 export default function TestDetail({ test, setTest }: { test: AssignTestType, setTest: (test?: AssignTestType) => void }) {
   const testObj: TestType = test.test; 
@@ -180,6 +181,7 @@ export default function TestDetail({ test, setTest }: { test: AssignTestType, se
 
 const TestResult = ({assignedTest}: {assignedTest: AssignTestType}) => {
   if (assignedTest.test.type === 'mbti_5') return <div className="resultPanel"><MBTI test={assignedTest.test as MBTI5TestType} /></div>
+  if (assignedTest.test.type === "catel_16pf") return <div className="resultPanel"><Cattel6pf test={assignedTest.test as Cattel16pfTestType} /></div>
   return <></>
 }
 
