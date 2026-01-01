@@ -11,7 +11,10 @@ const ProfileTile = ({ user }: { user: UserType }) => {
         <img className=" profile-tile-icon w3-svg-color2" src={circleUserIcon} />
           <div style={{ padding: "0px 30px" }}>
             <h3 className="text-black">{ user.get_full_name }</h3>
-            <p className="text-black font-size-[15px]">{ user.email }</p>
+            { user.email ? 
+              <p className="text-black font-size-[15px]">{ user.email }</p>
+              : <></>            
+            }
             {user.profile.type == "1" ?
               (<strong className="text-black font-size-[15px]">اکانت { user.profile.get_level_display }</strong>) :
               (<strong className="text-black font-size-[15px]">{ user.profile.get_type_display }</strong>)
