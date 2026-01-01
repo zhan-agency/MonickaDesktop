@@ -1,8 +1,4 @@
 import { AssignTestType, MBTI5TestType, TestType } from "@/type/monicka";
-import folderOpenIcon from '@/assets/folder-open.svg';
-import plusIcon from '@/assets/plus.svg';
-import { useEffect, useState } from "react";
-import { getAssignTests } from "@/utils";
 import clipboardListCheckIcon from "@/assets/clipboard-list-check.svg";
 import printIcon from "@/assets/print.svg"
 import arrowUpRightFromSquareIcon from "@/assets/arrow-up-right-from-square.svg"

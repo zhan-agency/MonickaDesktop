@@ -1,6 +1,5 @@
 import { AssignTestType, UserType } from "@/type/monicka";
 import folderOpenIcon from '@/assets/folder-open.svg';
-import plusIcon from '@/assets/plus.svg';
 import reloadIcon from '@/assets/arrows-rotate-solid-full.svg';
 import { useEffect, useState } from "react";
 import { getAssignTests } from "@/utils";
