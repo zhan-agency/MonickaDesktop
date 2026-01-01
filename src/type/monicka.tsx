@@ -171,3 +171,4 @@ export type Cattel16pfTestScoresType = {
 
 export type Cattel16pfTestType = TestType & { scores: Cattel16pfTestScoresType }; 
 export type MBTI5TestType = TestType & { scores: MBTI5TestScoresType };
+export type GenericTestType = MBTI5TestType | Cattel16pfTestType;

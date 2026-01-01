@@ -1,6 +1,7 @@
 import { AssignTestType, UserType } from "@/type/monicka";
 import folderOpenIcon from '@/assets/folder-open.svg';
 import plusIcon from '@/assets/plus.svg';
+import reloadIcon from '@/assets/arrows-rotate-solid-full.svg';
 import { useEffect, useState } from "react";
 import { getAssignTests } from "@/utils";
 import TestDetail from "./TestDetail";
@@ -33,8 +34,8 @@ export default function TestList({user}: {user: UserType}) {
                <img className="w3-title-bar-icon w3-svg-color1" src={folderOpenIcon} />
             </a>
             <span className="w3-title-bar-title">آزمون‌های من</span>
-            <a className="w3-title-bar-icon-backgroung w3-left" href="/test/new/">
-               <img className="w3-title-bar-icon2" src={plusIcon} />
+            <a className="w3-title-bar-icon-backgroung w3-left" onClick={()=> {setFirstLoad(true); setTests([])}}>
+               <img className="w3-title-bar-icon2" src={reloadIcon} />
             </a>
          </div>
 

@@ -1,4 +1,4 @@
-import { AssignTestType, Cattel16pfTestScoresType, Cattel16pfTestType, ClinicType, JalaliMonthType, MBTI5TestScoresType, MBTI5TestType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
+import { AssignTestType, Cattel16pfTestScoresType, Cattel16pfTestType, ClinicType, GenericTestType, JalaliMonthType, MBTI5TestScoresType, MBTI5TestType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
 
 export const jalaliMonths: { [key: number]: JalaliMonthType } = {
   1: { name: 'فروردین', length: 31 },
@@ -201,8 +201,8 @@ export const typeDict = {
   glasser: 'آزمون نیازهای اساسی گلسر',
 }
 
-function mapToTestScores(data: { [key: string]: any }): MBTI5TestScoresType | Cattel16pfTestScoresType {
-  return data.type === 'catel_16pf' ? {
+function mapToCattelTestScores(data: { [key: string]: any }): Cattel16pfTestScoresType {
+  return {
     a: parseInt(data.scores.a  || 0), 
     b: parseInt(data.scores.b  || 0), 
     c: parseInt(data.scores.c  || 0), 
@@ -219,7 +219,11 @@ function mapToTestScores(data: { [key: string]: any }): MBTI5TestScoresType | Ca
     q2: parseInt(data.scores.q2 || 0),
     q3: parseInt(data.scores.q3 || 0),
     q4: parseInt(data.scores.q4 || 0),
-  } :  {
+  }
+}
+
+function mapToMBTITestScores(data: { [key: string]: any }): MBTI5TestScoresType {
+  return {
     e: parseInt(data.scores.e || 0),
     n: parseInt(data.scores.n || 0),
     f: parseInt(data.scores.f || 0),
@@ -232,7 +236,9 @@ function mapToTestScores(data: { [key: string]: any }): MBTI5TestScoresType | Ca
     tu: parseInt(data.scores.tu || 0),
   }
 }
-export function mapToTest(data: { [key: string]: any }): MBTI5TestType | Cattel16pfTestType {
+export function mapToTest(data: { [key: string]: any }): GenericTestType {
+  const scores =  data.type == 'mbti_5' ? mapToMBTITestScores(data)
+    : mapToCattelTestScores(data)
   return {
     id: data.id,
     type: data.type,
@@ -241,6 +247,6 @@ export function mapToTest(data: { [key: string]: any }): MBTI5TestType | Cattel1
     title: data.title,
     date: data.date,
     answers: data.answers,
-    scores: mapToTestScores(data),
-  };
+    scores,
+  } as GenericTestType;
 }

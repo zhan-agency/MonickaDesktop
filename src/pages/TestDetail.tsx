@@ -9,7 +9,7 @@ import arrowUpRightFromSquareIcon from "@/assets/arrow-up-right-from-square.svg"
 import toolBoxIcon from "@/assets/toolbox.svg"
 import MBTI from "@/components/Tests/MBTI";
 
-export default function TestDetail({ test, setTest }: { test: AssignTestType, setTest: (test: AssignTestType) => void }) {
+export default function TestDetail({ test, setTest }: { test: AssignTestType, setTest: (test?: AssignTestType) => void }) {
   const testObj: TestType = test.test; 
   const SidePanel = ({ assignedTest }: { assignedTest: AssignTestType }) => {
     const test: TestType = assignedTest.test;
@@ -201,12 +201,12 @@ return (
         کارنامه&nbsp;آزمون
       </span>
       <a
-        href=""
         className="w3-left w3-hide-small"
         style={{ textDecoration: 'none' }}
+        onClick={()=>setTest()}
       >
         <div className="w3-button w3-round-large" style={{ width: '100%' }}>
-          <b>دیدن پرسشنامه</b>
+          <b>بازگشت ❯</b>
         </div>
       </a>
       <a
