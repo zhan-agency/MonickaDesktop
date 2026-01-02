@@ -7,7 +7,7 @@ import { BAEQITestType } from '@/type/monicka.js';
 import { e2p } from '@/utils.js';
 import { Chart } from 'chart.js';
 
-const TestGuide = ({ test }: { test: BAEQITestType }) => {
+const TestGuide = () => {
   return (
     <>
       <div className="w3-margin-top w3-margin-bottom text-black">
@@ -142,7 +142,7 @@ export default function BAEQI({ test }: { test: BAEQITestType }) {
           options={options}
         />
       </div>
-      <TestGuide test={test} />
+      <TestGuide />
     </div>
   );
 }
