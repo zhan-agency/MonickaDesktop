@@ -1,4 +1,4 @@
-import { AssignTestType, BAEQITestScoresType, BAITestScoresType, BDITestScoresType, Cattel16pfTestScoresType, Cattel16pfTestType, ClinicType, GenericTestType, GlasserTestScoresType, JalaliMonthType, MBTI5TestScoresType, MBTI5TestType, MBTITestScoresType, MIITestScoresType, NeoLongTestScoresType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
+import { AssignTestType, BAEQITestScoresType, BAITestScoresType, BDITestScoresType, Cattel16pfTestScoresType, Cattel16pfTestType, ClinicType, GenericTestType, GlasserTestScoresType, JalaliMonthType, MBTI5TestScoresType, MBTI5TestType, MBTITestScoresType, MIITestScoresType, NeoLongTestScoresType, SCL90RTestScoresType, SCL90RTestType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
 
 export const jalaliMonths: { [key: number]: JalaliMonthType } = {
   1: { name: 'فروردین', length: 31 },
@@ -264,7 +264,7 @@ function mapToMIITestScores(data: { [key: string]: any }): MIITestScoresType {
   }
 }
 
-function mapToBDITestScoresType(data: { [key: string]: any }): BDITestScoresType {
+function mapToBDITestScores(data: { [key: string]: any }): BDITestScoresType {
   return {
     a: parseInt(data.scores.a || 0),
     c: parseInt(data.scores.c || 0),
@@ -272,13 +272,13 @@ function mapToBDITestScoresType(data: { [key: string]: any }): BDITestScoresType
   }
 }
 
-function mapToBAITestScoresType(data: { [key: string]: any }): BAITestScoresType {
+function mapToBAITestScores(data: { [key: string]: any }): BAITestScoresType {
   return {
     a: parseInt(data.scores.a || 0),
   }
 }
 
-function mapToBAEQITestScoresType(data: { [key: string]: any }): BAEQITestScoresType {
+function mapToBAEQITestScores(data: { [key: string]: any }): BAEQITestScoresType {
   return {
     f_es: parseInt(data.scores.f_es || 0),
     f_as: parseInt(data.scores.f_as || 0),
@@ -298,7 +298,7 @@ function mapToBAEQITestScoresType(data: { [key: string]: any }): BAEQITestScores
   }
 }
 
-function mapToGlasserTestScoresType(data: { [key: string]: any }): GlasserTestScoresType {
+function mapToGlasserTestScores(data: { [key: string]: any }): GlasserTestScoresType {
   return {
     s: parseInt(data.scores.s || 0),
     p: parseInt(data.scores.p || 0),
@@ -308,7 +308,7 @@ function mapToGlasserTestScoresType(data: { [key: string]: any }): GlasserTestSc
   }
 }
 
-function mapToNeoLongTestScoresType(data: { [key: string]: any }): NeoLongTestScoresType {
+function mapToNeoLongTestScores(data: { [key: string]: any }): NeoLongTestScoresType {
   return {
     n1: parseInt(data.scores.n1 || 0),
     e1: parseInt(data.scores.e1 || 0),
@@ -344,16 +344,33 @@ function mapToNeoLongTestScoresType(data: { [key: string]: any }): NeoLongTestSc
 }
 
 
+function mapToSCL90RTestScores(data: { [key: string]: any }): SCL90RTestScoresType {
+  return {
+    som : parseInt(data.scores.som || 0),
+    oc : parseInt(data.scores.oc || 0),
+    intr : parseInt(data.scores.intr || 0),
+    dep : parseInt(data.scores.dep || 0),
+    anx : parseInt(data.scores.anx || 0),
+    hos : parseInt(data.scores.hos || 0),
+    phob : parseInt(data.scores.phob || 0),
+    par : parseInt(data.scores.par || 0),
+    psy : parseInt(data.scores.psy || 0),
+    gsi : parseInt(data.scores.gsi || 0),
+    psdi : parseInt(data.scores.psdi || 0),
+    pst : parseInt(data.scores.pst || 0),
+  }
+}
 
 export function mapToTest(data: { [key: string]: any }): GenericTestType {
   const scores =  data.type == 'mbti_5' ? mapToMBTI5TestScores(data)
     : data.type == 'mbti' ? mapToMBTITestScores(data) 
     : data.type == 'mii' ? mapToMIITestScores(data)
-    : data.type == 'bdi' ? mapToBDITestScoresType(data)
-    : data.type == 'bai' ? mapToBAITestScoresType(data)
-    : data.type == 'b_a_eqi' ? mapToBAEQITestScoresType(data)
-    : data.type == 'glasser' ? mapToGlasserTestScoresType(data)
-    : data.type == 'neo_long' ? mapToNeoLongTestScoresType(data)
+    : data.type == 'bdi' ? mapToBDITestScores(data)
+    : data.type == 'bai' ? mapToBAITestScores(data)
+    : data.type == 'b_a_eqi' ? mapToBAEQITestScores(data)
+    : data.type == 'glasser' ? mapToGlasserTestScores(data)
+    : data.type == 'neo_long' ? mapToNeoLongTestScores(data)
+    : data.type == 'scl_90_r' ? mapToSCL90RTestScores(data)
     : mapToCattelTestScores(data)
 
   return {

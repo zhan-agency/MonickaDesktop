@@ -189,62 +189,77 @@ export type BAITestScoresType = {
 }
 
 export type BAEQITestScoresType = {
-  f_es: number,
-  f_as: number,
-  f_sr: number,
-  f_sa: number,
-  f_in: number,
-  f_em: number,
-  f_re: number,
-  f_ir: number,
-  f_rt: number,
-  f_fl: number,
-  f_ps: number,
-  f_st: number,
-  f_ic: number,
-  f_op: number,
-  f_ha: number,
+  f_es: number;
+  f_as: number;
+  f_sr: number;
+  f_sa: number;
+  f_in: number;
+  f_em: number;
+  f_re: number;
+  f_ir: number;
+  f_rt: number;
+  f_fl: number;
+  f_ps: number;
+  f_st: number;
+  f_ic: number;
+  f_op: number;
+  f_ha: number;
 }
 
 export type GlasserTestScoresType = {
-  s: number,
-  p: number,
-  f: number,
-  l: number,
-  fu: number,
+  s: number;
+  p: number;
+  f: number;
+  l: number;
+  fu: number;
 }
 
 export type NeoLongTestScoresType = {
-  n1: number,
-  e1: number,
-  o1: number,
-  a1: number,
-  c1: number,
-  n2: number,
-  e2: number,
-  o2: number,
-  a2: number,
-  c2: number,
-  n3: number,
-  e3: number,
-  o3: number,
-  a3: number,
-  c3: number,
-  n4: number,
-  e4: number,
-  o4: number,
-  a4: number,
-  c4: number,
-  n5: number,
-  e5: number,
-  o5: number,
-  a5: number,
-  c5: number,
-  n6: number,
-  e6: number,
-  o6: number,
-  a6: number,
-  c6: number,
+  n1: number;
+  e1: number;
+  o1: number;
+  a1: number;
+  c1: number;
+  n2: number;
+  e2: number;
+  o2: number;
+  a2: number;
+  c2: number;
+  n3: number;
+  e3: number;
+  o3: number;
+  a3: number;
+  c3: number;
+  n4: number;
+  e4: number;
+  o4: number;
+  a4: number;
+  c4: number;
+  n5: number;
+  e5: number;
+  o5: number;
+  a5: number;
+  c5: number;
+  n6: number;
+  e6: number;
+  o6: number;
+  a6: number;
+  c6: number;
+}
+
+export type SCL90RTestScoresType = {
+  som: number;
+  oc: number;
+  intr: number;
+  dep: number;
+  anx: number;
+  hos: number;
+  phob: number;
+  par: number;
+  psy: number;
+  gsi: number;
+  psdi: number;
+  pst: number;
 }
 
 export type Cattel16pfTestType = TestType & { scores: Cattel16pfTestScoresType };
@@ -256,5 +271,6 @@ export type BAITestType = TestType & { scores: BAITestScoresType };
 export type BAEQITestType = TestType & { scores: BAEQITestScoresType };
 export type GlasserTestType = TestType & { scores: GlasserTestScoresType };
 export type NeoLongTestType = TestType & { scores: NeoLongTestScoresType };
+export type SCL90RTestType = TestType & { scores: SCL90RTestScoresType };
 
-export type GenericTestType = MBTI5TestType | MBTI5TestType | Cattel16pfTestType | MIITestType | BDITestType | BAITestType | BAEQITestType | GlasserTestType | NeoLongTestType;
+export type GenericTestType = MBTI5TestType | MBTI5TestType | Cattel16pfTestType | MIITestType | BDITestType | BAITestType | BAEQITestType | GlasserTestType | NeoLongTestType | SCL90RTestType;

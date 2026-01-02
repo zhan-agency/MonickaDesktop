@@ -1,4 +1,4 @@
-import { AssignTestType, BAEQITestType, BAITestType, BDITestType, Cattel16pfTestType, GlasserTestType, MBTI5TestType, MBTITestType, MIITestType, TestType } from "@/type/monicka";
+import { AssignTestType, BAEQITestType, BAITestType, BDITestType, Cattel16pfTestType, GlasserTestType, MBTI5TestType, MBTITestType, MIITestType, SCL90RTestType, TestType } from "@/type/monicka";
 import clipboardListCheckIcon from "@/assets/clipboard-list-check.svg";
 import printIcon from "@/assets/print.svg"
 import arrowUpRightFromSquareIcon from "@/assets/arrow-up-right-from-square.svg"
@@ -11,6 +11,7 @@ import Glasser from "@/components/Tests/Glasser";
 import BDI from "@/components/Tests/bDI";
 import BAI from "@/components/Tests/BAI";
 import BAEQI from "@/components/Tests/BAEQI";
+import SCL90R from "@/components/Tests/SCL90R";
 
 export default function TestDetail({ test, setTest }: { test: AssignTestType, setTest: (test?: AssignTestType) => void }) {
   const testObj: TestType = test.test; 
@@ -194,6 +195,7 @@ const TestResult = ({assignedTest}: {assignedTest: AssignTestType}) => {
   if (assignedTest.test.type === "bdi") return <div className="resultPanel"><BDI test={assignedTest.test as BDITestType} /></div>
   if (assignedTest.test.type === "bai") return <div className="resultPanel"><BAI test={assignedTest.test as BAITestType} /></div>
   if (assignedTest.test.type === "b_a_eqi") return <div className="resultPanel"><BAEQI test={assignedTest.test as BAEQITestType} /></div>
+  if (assignedTest.test.type === "scl_90_r") return <div className="resultPanel"><SCL90R test={assignedTest.test as SCL90RTestType} /></div>
   return <></>
 }
 
