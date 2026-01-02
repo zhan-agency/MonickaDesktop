@@ -1,4 +1,4 @@
-import { AssignTestType, Cattel16pfTestType, MBTI5TestType, MBTITestType, MIITestType, TestType } from "@/type/monicka";
+import { AssignTestType, BAEQITestType, BAITestType, BDITestType, Cattel16pfTestType, GlasserTestType, MBTI5TestType, MBTITestType, MIITestType, TestType } from "@/type/monicka";
 import clipboardListCheckIcon from "@/assets/clipboard-list-check.svg";
 import printIcon from "@/assets/print.svg"
 import arrowUpRightFromSquareIcon from "@/assets/arrow-up-right-from-square.svg"
@@ -7,6 +7,10 @@ import MBTI from "@/components/Tests/MBTI";
 import Cattel6pf from "@/components/Tests/CATTEL";
 import MBTI5 from "@/components/Tests/MBTI5";
 import MII from "@/components/Tests/MII";
+import Glasser from "@/components/Tests/Glasser";
+import BDI from "@/components/Tests/bDI";
+import BAI from "@/components/Tests/BAI";
+import BAEQI from "@/components/Tests/BAEQI";
 
 export default function TestDetail({ test, setTest }: { test: AssignTestType, setTest: (test?: AssignTestType) => void }) {
   const testObj: TestType = test.test; 
@@ -186,6 +190,10 @@ const TestResult = ({assignedTest}: {assignedTest: AssignTestType}) => {
   if (assignedTest.test.type === 'mbti') return <div className="resultPanel"><MBTI test={assignedTest.test as MBTITestType} /></div>
   if (assignedTest.test.type === "catel_16pf") return <div className="resultPanel"><Cattel6pf test={assignedTest.test as Cattel16pfTestType} /></div>
   if (assignedTest.test.type === "mii") return <div className="resultPanel"><MII test={assignedTest.test as MIITestType} /></div>
+  if (assignedTest.test.type === "glasser") return <div className="resultPanel"><Glasser test={assignedTest.test as GlasserTestType} /></div>
+  if (assignedTest.test.type === "bdi") return <div className="resultPanel"><BDI test={assignedTest.test as BDITestType} /></div>
+  if (assignedTest.test.type === "bai") return <div className="resultPanel"><BAI test={assignedTest.test as BAITestType} /></div>
+  if (assignedTest.test.type === "b_a_eqi") return <div className="resultPanel"><BAEQI test={assignedTest.test as BAEQITestType} /></div>
   return <></>
 }
 
@@ -243,7 +251,7 @@ return (
     </div>
 
     <div>
-      <div className="w3-row">
+      <div className="w3-row bg-white">
         <SidePanel assignedTest={test} />
         <div className="w3-left w3-threequarter w3-detailbox w3-detailbox-mobile">
           <TestResult assignedTest={test} />
