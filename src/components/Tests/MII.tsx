@@ -13,6 +13,7 @@ import {
   Legend,
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { e2p } from '@/utils.js';
 
 
 const TestGuide = () => {
@@ -56,12 +57,6 @@ export default function MII({ test }: { test: MIITestType }) {
     Legend,
     ChartDataLabels
   );
-
-  const toPersianDigits = (value: number | string): string => {
-    return value
-      .toString()
-      .replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]);
-  };
 
   /* -------------------------
      1. VALUES (UNCHANGED LOGIC)
@@ -116,7 +111,7 @@ export default function MII({ test }: { test: MIITestType }) {
     },
     plugins: {
       datalabels: {
-        formatter: (value) => toPersianDigits(Math.round(value)),
+        formatter: (value) => e2p(String(Math.round(value))),
         anchor: 'center',
         align: 'center',
         font: {
