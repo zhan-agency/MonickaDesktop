@@ -1,4 +1,4 @@
-import { AssignTestType, Cattel16pfTestScoresType, Cattel16pfTestType, ClinicType, GenericTestType, JalaliMonthType, MBTI5TestScoresType, MBTI5TestType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
+import { AssignTestType, Cattel16pfTestScoresType, Cattel16pfTestType, ClinicType, GenericTestType, JalaliMonthType, MBTI5TestScoresType, MBTI5TestType, MBTITestScoresType, MIITestScoresType, SessionType, TestType, TherapistType, UserType, typeKeys } from "./type/monicka";
 
 export const jalaliMonths: { [key: number]: JalaliMonthType } = {
   1: { name: 'فروردین', length: 31 },
@@ -222,7 +222,7 @@ function mapToCattelTestScores(data: { [key: string]: any }): Cattel16pfTestScor
   }
 }
 
-function mapToMBTITestScores(data: { [key: string]: any }): MBTI5TestScoresType {
+function mapToMBTI5TestScores(data: { [key: string]: any }): MBTI5TestScoresType {
   return {
     e: parseInt(data.scores.e || 0),
     n: parseInt(data.scores.n || 0),
@@ -236,9 +236,40 @@ function mapToMBTITestScores(data: { [key: string]: any }): MBTI5TestScoresType 
     tu: parseInt(data.scores.tu || 0),
   }
 }
+
+
+function mapToMBTITestScores(data: { [key: string]: any }): MBTITestScoresType {
+  return {
+    e: parseInt(data.scores.e || 0),
+    n: parseInt(data.scores.n || 0),
+    f: parseInt(data.scores.f || 0),
+    j: parseInt(data.scores.j || 0),
+    i: parseInt(data.scores.i || 0),
+    s: parseInt(data.scores.s || 0),
+    t: parseInt(data.scores.t || 0),
+    p: parseInt(data.scores.p || 0),
+  }
+}
+
+function mapToMIITestScores(data: { [key: string]: any }): MIITestScoresType {
+  return {
+    VS: parseInt(data.scores.VS || 0),
+    LV: parseInt(data.scores.LV || 0),
+    Ie: parseInt(data.scores.Ie || 0),
+    Ia: parseInt(data.scores.Ia || 0),
+    LM: parseInt(data.scores.LM || 0),
+    M: parseInt(data.scores.M || 0),
+    BK: parseInt(data.scores.BK || 0),
+    N: parseInt(data.scores.N || 0),
+  }
+}
+
 export function mapToTest(data: { [key: string]: any }): GenericTestType {
   const scores =  data.type == 'mbti_5' ? mapToMBTITestScores(data)
+    : data.type == 'mbti' ? mapToMBTITestScores(data) 
+    : data.type == 'mii' ? mapToMIITestScores(data)
     : mapToCattelTestScores(data)
+
   return {
     id: data.id,
     type: data.type,

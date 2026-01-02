@@ -124,19 +124,6 @@ export type TestType = {
 
 export type typeKeys = 'short_neo' | 'neo_long' | 'scl_90_r' | 'mbti' | 'mbti_5' | 'catel_16pf' | 'mcmi_iii' | 'bdi' | 'bai' | 'b_a_eqi' | 'mii' | 'glasser';
 
-export type MBTITestType = TestType & {
-  scores: {
-    i: number;
-    e: number;
-    p: number;
-    j: number;
-    n: number;
-    s: number;
-    f: number;
-    t: number;
-  }
-}
-
 export type MBTI5TestScoresType = {
   i: number;
   e: number;
@@ -148,6 +135,17 @@ export type MBTI5TestScoresType = {
   t: number;
   a: number;
   tu: number;
+}
+
+export type MBTITestScoresType = {
+  i: number;
+  e: number;
+  p: number;
+  j: number;
+  n: number;
+  s: number;
+  f: number;
+  t: number;
 }
 
 export type Cattel16pfTestScoresType = {
@@ -169,6 +167,19 @@ export type Cattel16pfTestScoresType = {
   q4: number;
 }
 
+export type MIITestScoresType = {
+  VS: number;
+  LV: number;
+  Ie: number;
+  Ia: number;
+  LM: number;
+  M: number;
+  BK: number;
+  N: number;
+}
+
 export type Cattel16pfTestType = TestType & { scores: Cattel16pfTestScoresType }; 
 export type MBTI5TestType = TestType & { scores: MBTI5TestScoresType };
-export type GenericTestType = MBTI5TestType | Cattel16pfTestType;
+export type MBTITestType = TestType & { scores: MBTITestScoresType };
+export type MIITestType = TestType & { scores: MIITestScoresType };
+export type GenericTestType = MBTI5TestType | MBTI5TestType | Cattel16pfTestType | MIITestType;

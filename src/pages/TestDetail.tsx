@@ -1,10 +1,12 @@
-import { AssignTestType, Cattel16pfTestType, MBTI5TestType, TestType } from "@/type/monicka";
+import { AssignTestType, Cattel16pfTestType, MBTI5TestType, MBTITestType, MIITestType, TestType } from "@/type/monicka";
 import clipboardListCheckIcon from "@/assets/clipboard-list-check.svg";
 import printIcon from "@/assets/print.svg"
 import arrowUpRightFromSquareIcon from "@/assets/arrow-up-right-from-square.svg"
 import toolBoxIcon from "@/assets/toolbox.svg"
 import MBTI from "@/components/Tests/MBTI";
 import Cattel6pf from "@/components/Tests/CATTEL";
+import MBTI5 from "@/components/Tests/MBTI5";
+import MII from "@/components/Tests/MII";
 
 export default function TestDetail({ test, setTest }: { test: AssignTestType, setTest: (test?: AssignTestType) => void }) {
   const testObj: TestType = test.test; 
@@ -39,7 +41,7 @@ export default function TestDetail({ test, setTest }: { test: AssignTestType, se
                 </h4>
 
                 <a href="#guide" style={{textDecoration: "none"}}>
-                  <input className="w3-check" type="checkbox" checked={true}/>
+                  <input className="w3-check" type="checkbox" defaultChecked={true}/>
                     <label className="w3-button w3-hoverable w3-round" style={{padding: '4px'}}>نمایش تحلیل</label>
                 </a >
 
@@ -180,8 +182,10 @@ export default function TestDetail({ test, setTest }: { test: AssignTestType, se
   }
 
 const TestResult = ({assignedTest}: {assignedTest: AssignTestType}) => {
-  if (assignedTest.test.type === 'mbti_5') return <div className="resultPanel"><MBTI test={assignedTest.test as MBTI5TestType} /></div>
+  if (assignedTest.test.type === 'mbti_5') return <div className="resultPanel"><MBTI5 test={assignedTest.test as MBTI5TestType} /></div>
+  if (assignedTest.test.type === 'mbti') return <div className="resultPanel"><MBTI test={assignedTest.test as MBTITestType} /></div>
   if (assignedTest.test.type === "catel_16pf") return <div className="resultPanel"><Cattel6pf test={assignedTest.test as Cattel16pfTestType} /></div>
+  if (assignedTest.test.type === "mii") return <div className="resultPanel"><MII test={assignedTest.test as MIITestType} /></div>
   return <></>
 }
 

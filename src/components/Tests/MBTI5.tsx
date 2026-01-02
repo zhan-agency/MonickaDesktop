@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { ChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './chart.js'
-import { MBTITestType, TestType } from '@/type/monicka.js';
+import { MBTI5TestType, TestType } from '@/type/monicka.js';
 
 const TestGuide = ({typeIndicator, persianTypeIndicator}:{typeIndicator: string, persianTypeIndicator: string}) => {
   return (
@@ -66,7 +66,7 @@ const TestGuide = ({typeIndicator, persianTypeIndicator}:{typeIndicator: string,
   )
 }
 
-export default function MBTI({ test }: { test: MBTITestType }) {
+export default function MBTI5({ test }: { test: MBTI5TestType }) {
 
   /* -------------------------
      1. TYPE INDICATORS
@@ -87,6 +87,9 @@ export default function MBTI({ test }: { test: MBTITestType }) {
     if (+test.scores.j > +test.scores.p) { type += 'J'; fa += 'قضاوتی/'; }
     else { type += 'P'; fa += 'ادراکی/'; }
 
+    if (+test.scores.a > +test.scores.tu) { type += '-A'; fa += 'قاطع'; }
+    else { type += '-Tu'; fa += 'بی‌قرار'; }
+
     return { typeIndicator: type, persianTypeIndicator: fa };
   }, [test]);
 
@@ -98,10 +101,12 @@ export default function MBTI({ test }: { test: MBTITestType }) {
     +test.scores.n / 72 * 100,
     +test.scores.f / 72 * 100,
     +test.scores.j / 72 * 100,
+    +test.scores.a / 72 * 100,
     +test.scores.i / 72 * 100,
     +test.scores.s / 72 * 100,
     +test.scores.t / 72 * 100,
     +test.scores.p / 72 * 100,
+    +test.scores.tu / 72 * 100
   ];
 
   const traits = [
@@ -109,6 +114,7 @@ export default function MBTI({ test }: { test: MBTITestType }) {
     { left: 'نکته‌بین (S)', right: 'شهودی (N)' },
     { left: 'منطقی (T)', right: 'احساسی (F)' },
     { left: 'جستجوگر (P)', right: 'منظم (J)' },
+    { left: 'بی‌قرار (Tu)', right: 'قاطع (A)' }
   ];
 
   const scores = yValues.slice(0, 5).map(v => Number(v.toFixed(1)));
