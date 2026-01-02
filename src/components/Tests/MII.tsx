@@ -2,8 +2,18 @@ import { Radar } from 'react-chartjs-2';
 import { ChartOptions } from 'chart.js';
 import './chart.js'
 import { MIITestType } from '@/type/monicka.js';
-import Vazirmatn from "@/assets/fonts/Vazirmatn-Regular.woff2"
-import { RadialLinearScale } from 'chart.js';
+import {
+  Chart as ChartJS,
+  RadarController,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
 
 const TestGuide = () => {
   return (
@@ -36,6 +46,16 @@ const TestGuide = () => {
 }
 
 export default function MII({ test }: { test: MIITestType }) {
+  ChartJS.register(
+    RadarController,
+    RadialLinearScale,
+    PointElement,
+    LineElement,
+    Filler,
+    Tooltip,
+    Legend,
+    ChartDataLabels
+  );
 
   const toPersianDigits = (value: number | string): string => {
     return value
@@ -97,11 +117,8 @@ export default function MII({ test }: { test: MIITestType }) {
     plugins: {
       datalabels: {
         formatter: (value) => toPersianDigits(Math.round(value)),
-
-        anchor: 'end',
-
-        align: 'end',
-
+        anchor: 'center',
+        align: 'center',
         font: {
           family: 'Vazirmatn',
           weight: 'bold',
