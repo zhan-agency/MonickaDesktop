@@ -149,18 +149,18 @@ export type MBTITestScoresType = {
 }
 
 export type Cattel16pfTestScoresType = {
-  a: number; 
-  b: number; 
-  c: number; 
-  e: number; 
-  f: number; 
-  g: number; 
-  h: number; 
-  i: number; 
-  l: number; 
-  m: number; 
-  n: number; 
-  o: number; 
+  a: number;
+  b: number;
+  c: number;
+  e: number;
+  f: number;
+  g: number;
+  h: number;
+  i: number;
+  l: number;
+  m: number;
+  n: number;
+  o: number;
   q1: number;
   q2: number;
   q3: number;
@@ -178,8 +178,83 @@ export type MIITestScoresType = {
   N: number;
 }
 
-export type Cattel16pfTestType = TestType & { scores: Cattel16pfTestScoresType }; 
+export type BDITestScoresType = {
+  a: number;
+  c: number;
+  p: number;
+}
+
+export type BAITestScoresType = {
+  a: number;
+}
+
+export type BAEQITestScoresType = {
+  f_es: number,
+  f_as: number,
+  f_sr: number,
+  f_sa: number,
+  f_in: number,
+  f_em: number,
+  f_re: number,
+  f_ir: number,
+  f_rt: number,
+  f_fl: number,
+  f_ps: number,
+  f_st: number,
+  f_ic: number,
+  f_op: number,
+  f_ha: number,
+}
+
+export type GlasserTestScoresType = {
+  s: number,
+  p: number,
+  f: number,
+  l: number,
+  fu: number,
+}
+
+export type NeoLongTestScoresType = {
+  n1: number,
+  e1: number,
+  o1: number,
+  a1: number,
+  c1: number,
+  n2: number,
+  e2: number,
+  o2: number,
+  a2: number,
+  c2: number,
+  n3: number,
+  e3: number,
+  o3: number,
+  a3: number,
+  c3: number,
+  n4: number,
+  e4: number,
+  o4: number,
+  a4: number,
+  c4: number,
+  n5: number,
+  e5: number,
+  o5: number,
+  a5: number,
+  c5: number,
+  n6: number,
+  e6: number,
+  o6: number,
+  a6: number,
+  c6: number,
+}
+
+export type Cattel16pfTestType = TestType & { scores: Cattel16pfTestScoresType };
 export type MBTI5TestType = TestType & { scores: MBTI5TestScoresType };
 export type MBTITestType = TestType & { scores: MBTITestScoresType };
 export type MIITestType = TestType & { scores: MIITestScoresType };
-export type GenericTestType = MBTI5TestType | MBTI5TestType | Cattel16pfTestType | MIITestType;
+export type BDITestType = TestType & { scores: BDITestScoresType };
+export type BAITestType = TestType & { scores: BAITestScoresType };
+export type BAEQITestType = TestType & { scores: BAEQITestScoresType };
+export type GlasserTestType = TestType & { scores: GlasserTestScoresType };
+export type NeoLongTestType = TestType & { scores: NeoLongTestScoresType };
+
+export type GenericTestType = MBTI5TestType | MBTI5TestType | Cattel16pfTestType | MIITestType | BDITestType | BAITestType | BAEQITestType | GlasserTestType | NeoLongTestType;
