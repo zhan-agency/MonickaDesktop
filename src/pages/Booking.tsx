@@ -80,7 +80,7 @@ export default function Booking({ user }: { user: UserType }) {
   const [clinic, setClinic] = useState<ClinicType>(user.clinics[0])
   const [start, setStart] = useState(8)
   const [end, setEnd] = useState(20)
-  const [calendarMode, setCalendarMode] = useState(true)
+  const [calendarMode, setCalendarMode] = useState(false)
 
   useEffect(() => {
     if (updateSessions) {
