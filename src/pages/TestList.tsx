@@ -45,7 +45,7 @@ export default function TestList({user}: {user: UserType}) {
          </div>
 
          <div className="m-8">
-            <input className="bg-white p-4 w-full text-black rounded-lg" type="text" placeholder="جستجو" defaultValue={query} onChange={(e) => setQuery(e.target.value)}/>
+            <input className="bg-white p-4 w-full text-black rounded-lg" type="text" placeholder="جستجو در نام‌ها" defaultValue={query} onChange={(e) => setQuery(e.target.value)}/>
          </div>
 
          <div style={{padding: '8px'}}>
