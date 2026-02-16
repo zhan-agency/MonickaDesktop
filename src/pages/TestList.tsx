@@ -6,6 +6,7 @@ import { getAssignTests } from "@/utils";
 import TestDetail from "./TestDetail";
 
 export default function TestList({user}: {user: UserType}) {
+    const [query, setQuery] = useState<string>('');
     const [tests, setTests] = useState<AssignTestType[]>([]);
     const [test, setTest] = useState<AssignTestType>();
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -38,6 +39,9 @@ export default function TestList({user}: {user: UserType}) {
             </a>
          </div>
 
+         <div className="m-8">
+            <input className="bg-white p-4 w-full text-black rounded-lg" type="text" placeholder="جستجو" defaultValue={query} onChange={(e) => setQuery(e.target.value)}/>
+         </div>
 
          <div style={{padding: '8px'}}>
             <ul className="w3-ul w3-hoverable">
@@ -54,7 +58,7 @@ export default function TestList({user}: {user: UserType}) {
                ):(<></>)
             }
 
-               {tests.sort((a, b) => b.id - a.id).map((test, index) => (
+               {tests.sort((a, b) => b.id - a.id).filter((t)=> t.test.participant.get_full_name.includes(query)).map((test, index) => (
                  <li key={index} className="w3-round-large">
                     <div style={{textDecoration: 'none'}} onClick={()=> setTest(test)}>
                         <time className="w3-left"> 
