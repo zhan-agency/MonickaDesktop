@@ -10,14 +10,15 @@ export default function TestList({user}: {user: UserType}) {
     const [tests, setTests] = useState<AssignTestType[]>([]);
     const [test, setTest] = useState<AssignTestType>();
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
+    const [recent, setRecent] = useState<boolean>(true)
     useEffect(() => {
       if (firstLoad) {
-        getAssignTests(true).then((data) => {
+        getAssignTests(recent).then((data) => {
           setTests(data)
           setFirstLoad(false);
         });
       }
-    }, [tests, test]);
+    }, [tests, test, recent]);
     console.log(tests)
 
     if (test) {
@@ -29,14 +30,18 @@ export default function TestList({user}: {user: UserType}) {
         <div className="w3-container" style={{paddingBottom: "16px"}}>
         <div className="w3-margin-sides-60 w3-white w3-round-xlarge">
 
-         <div className="w3-title-bar">
+         <div className="w3-title-bar flex">
             <a className="w3-title-bar-icon-backgroung w3-blue">
                <img className="w3-title-bar-icon w3-svg-color1" src={folderOpenIcon} />
             </a>
             <span className="w3-title-bar-title">آزمون‌های من</span>
+            <p className="cursor-pointer w3-left h-full m-0 w-[200px] text-center bg-gray-100 rounded-lg p-2 " onClick={()=> {if (recent) {setRecent(false); setFirstLoad(true)}}}>
+               { recent ? ('نمایش تست‌های قدیمی') : (firstLoad ? 'در حال بارگذاری' : 'انجام شد')}
+            </p>
             <a className="w3-title-bar-icon-backgroung w3-left" onClick={()=> {setFirstLoad(true); setTests([])}}>
                <img className="w3-title-bar-icon2" src={reloadIcon} />
             </a>
+           
          </div>
 
          <div className="m-8">
@@ -59,14 +64,14 @@ export default function TestList({user}: {user: UserType}) {
             }
 
                {tests.sort((a, b) => b.id - a.id).filter((t)=> t.test.participant.get_full_name.includes(query)).map((test, index) => (
-                 <li key={index} className="w3-round-large">
+                 <li key={index} className="w3-round-large cursor-pointer">
                     <div style={{textDecoration: 'none'}} onClick={()=> setTest(test)}>
                         <time className="w3-left"> 
                           { new Date(test.assign_date).toLocaleString('fa-IR') }
                         </time>                            
                        <br className="w3-hide-large w3-hide-medium" />
                        <h3  style={{color:'black'}}>
-                         { test.test.participant.get_full_name } - { test.test.get_type_display }
+                         { test.test.participant.get_full_name } <span className="mr-2 text-[14px] p-2 bg-gray-200 rounded-lg">{ test.test.get_type_display }</span>
                        </h3>
                     </div>
                  </li>
